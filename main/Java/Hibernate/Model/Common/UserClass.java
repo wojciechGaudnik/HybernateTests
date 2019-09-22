@@ -1,27 +1,24 @@
-package Hibernate.Model;
+package Hibernate.Model.Common;
 
 import lombok.Data;
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.UniqueElements;
-
 
 import javax.persistence.*;
-import java.io.Serializable;
 
+@Audited
 @Data
 @Entity(name = "user_class")
-public class UserClass{
+public class UserClass  {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 
 	@Column(unique = true)
-//	@UniqueElements
 	@NotEmpty(message = "name is mandatory")
 	private String name;
 
-	@NotEmpty(message = "name is mandatory")
+	@NotEmpty(message = "photoUrl is mandatory")
 	private String photoUrl;
-
 }
