@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-@Entity(name = "mentor")
+@Entity(name = "mentors")
 public class Mentor implements Serializable {
 
 	@Id

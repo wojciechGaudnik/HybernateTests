@@ -16,8 +16,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-@Entity(name = "group_item_baskets")
-public class GroupItemBasket {
+@Entity(name = "group_quest_baskets")
+public class GroupQuestBasket {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +27,10 @@ public class GroupItemBasket {
 	@NotEmpty(message = "name is mandatory")
 	private String name;
 
-	@NotEmpty(message = "item card is mandatory")
+	@NotEmpty(message = "quest card is mandatory")
 	@OneToOne
-	private QuestCard itemCard;
+	private QuestCard questCard;
 
-	@OneToMany()
+	@OneToMany(targetEntity = User.class)
 	private Set<User> users = new HashSet<>();
 }

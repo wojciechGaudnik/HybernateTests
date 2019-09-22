@@ -1,26 +1,21 @@
 package Hibernate.Model.Persons;
 
-import Hibernate.Model.Cards.ItemCard;
-import Hibernate.Model.Cards.QuestCard;
-import Hibernate.Model.Common.UserClass;
-import Hibernate.Model.Common.UserLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import javax.validation.constraints.Email;
+import java.io.Serializable;
 
 @Audited
 @Getter
 @Setter
 @Builder
-@Entity(name = "users")
-public class User {
+@Entity(name = "creepy")
+public class Creepy implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +29,7 @@ public class User {
 
 	@Column(unique = true)
 	@NotEmpty(message = "email is mandatory")
-	@Email(message="Please provide a valid email address")
+	@Email(message="Please provide a valid email address") //todo <--- neither Javax nor hibernate validator
 //	@Retention(RUNTIME)   //todo <--- check if help with catch errors !!!
 	private String email;
 
@@ -48,18 +43,4 @@ public class User {
 
 	@NotEmpty(message = "photo is mandatory")
 	private String photoUrl;
-
-	@NotEmpty(message = "userLevel is mandatory")
-	@ManyToOne(targetEntity = UserLevel.class)
-	private UserLevel userLevel;
-
-	@NotEmpty(message = "userClass is mandatory")
-	@ManyToOne(targetEntity = UserClass.class)
-	private UserClass userClass;
-
-	@ManyToMany(targetEntity = ItemCard.class)
-	private Set<ItemCard> itemCards = new HashSet<>();
-
-	@ManyToMany(targetEntity = QuestCard.class)
-	private Set<QuestCard> questCards = new HashSet<>();
 }
