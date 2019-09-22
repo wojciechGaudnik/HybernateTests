@@ -41,8 +41,8 @@ hs_err_pid*
 .idea/modules.xml
 .idea/vcs.xml
 Snippets.iml
-main/
-pom.xml
+#main/
+#pom.xml
 target/classes/META-INF/
 target/classes/hibernate.properties
 target/generated-sources/
