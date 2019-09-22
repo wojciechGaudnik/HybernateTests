@@ -1,16 +1,24 @@
 package Hibernate.Model.Persons;
 
-import lombok.Data;
+import Hibernate.Model.Common.UserClass;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Audited
-@Data
+@Getter
+@Setter
+@Builder
 @Entity(name = "mentor")
-public class Mentor  {
+public class Mentor implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +30,23 @@ public class Mentor  {
 	@NotEmpty(message = "lastName is mandatory")
 	private String lastName;
 
-	@Email
 	@Column(unique = true)
 	@NotEmpty(message = "email is mandatory")
+	@Email(message="Please provide a valid email address")
+//	@Retention(RUNTIME)   //todo <--- check if help with catch errors !!!
 	private String email;
 
+	@Column(unique = true)
+	@NotEmpty(message = "nick is mandatory")
+	private String nick;
 
-	
-	@NotEmpty(message = "name is mandatory")
+	@Column(unique = true)
+	@NotEmpty(message = "password is mandatory")
+	private String password;  //todo <--- how save password
+
+	@NotEmpty(message = "photo is mandatory")
 	private String photoUrl;
+
+	@ManyToMany(targetEntity = UserClass.class)
+	private Set<UserClass> userClasses = new HashSet<>();   // todo ---> one mentor can have many class ---> UserClass
 }
