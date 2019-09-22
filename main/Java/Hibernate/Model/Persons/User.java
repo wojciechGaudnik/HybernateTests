@@ -1,5 +1,7 @@
 package Hibernate.Model.Persons;
 
+import Hibernate.Model.Baskets.GroupItemBasket;
+import Hibernate.Model.Baskets.GroupQuestBasket;
 import Hibernate.Model.Cards.ItemCard;
 import Hibernate.Model.Cards.QuestCard;
 import Hibernate.Model.Common.UserClass;
@@ -56,6 +58,12 @@ public class User {
 	@NotEmpty(message = "userClass is mandatory")
 	@ManyToOne(targetEntity = UserClass.class)
 	private UserClass userClass;
+
+	@ManyToMany(targetEntity = GroupItemBasket.class)
+	private Set<GroupItemBasket> groupItemBaskets = new HashSet<>();
+
+	@ManyToMany(targetEntity = GroupQuestBasket.class)
+	private Set<GroupQuestBasket> groupQuestBaskets = new HashSet<>();
 
 	@ManyToMany(targetEntity = ItemCard.class)
 	private Set<ItemCard> itemCards = new HashSet<>();

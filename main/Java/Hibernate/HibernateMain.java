@@ -11,10 +11,12 @@ import Hibernate.Model.Common.UserLevel;
 import Hibernate.Model.Persons.Creepy;
 import Hibernate.Model.Persons.Mentor;
 import Hibernate.Model.Persons.User;
+import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -71,14 +73,32 @@ public class HibernateMain {
 		initQuestCategory(session);
 		initUserClass(session);
 		initUserLevel(session);
+		initGroupItemBasket(session);
+		initGroupQuestBasket(session);
 
 
-//		GroupItemBasket groupItemBasket1 = new GroupItemBasket();
-//		groupItemBasket1.
+		UserLevel userLevel = session.get(UserLevel.class, 1L);
+		ItemCategory itemCategory = session.get(ItemCategory.class, 1L);
+		GroupItemBasket groupItemBasket = session.get(GroupItemBasket.class, 1L);
 
 
 
+		ItemCard itemCard = ItemCard.builder()
+				.name("Item Card first")
+				.photoUrl("http://it.is.url.for.photo1.com")
+				.value(1)
+				.description("Item Card Description First")
+				.allowedGroupBuy(true)
+				.resolved(false)
+				.userLevel(userLevel)
+				.itemCategory(itemCategory)
+				.groupItemBasket(groupItemBasket)
+				.build();
 
+
+		session.save(itemCard);
+		userLevel.getItemCardSet().add(itemCard);
+		session.merge(userLevel);
 
 //		UserLevel userLevel1 = session.get(UserLevel.class, 1L);
 
@@ -118,6 +138,32 @@ public class HibernateMain {
 //		sf.close();
 	}
 
+	private static void initGroupQuestBasket(Session session) {
+		GroupQuestBasket groupQuestBasket1 = GroupQuestBasket.builder()
+				.name("Group Quest Basket First")
+				.build();
+
+		GroupQuestBasket groupQuestBasket2 = GroupQuestBasket.builder()
+				.name("Group Quest Basket Second")
+				.build();
+
+		session.save(groupQuestBasket1);
+		session.save(groupQuestBasket2);
+	}
+
+	private static void initGroupItemBasket(Session session) {
+		GroupItemBasket groupItemBasket1 = GroupItemBasket.builder()
+				.name("Group Item Basket First")
+				.build();
+
+		GroupItemBasket groupItemBasket2 = GroupItemBasket.builder()
+				.name("Group Item Basket Second")
+				.build();
+
+		session.save(groupItemBasket1);
+		session.save(groupItemBasket2);
+	}
+
 	private static void initCreepy(Session session) {
 		Creepy creepy = Creepy
 				.builder()
@@ -141,6 +187,9 @@ public class HibernateMain {
 		UserLevel userLevel1 = UserLevel.builder()
 				.name("User Level First")
 				.value(1)
+				.itemCardSet(new ArrayList<>())
+				.questCardSet(new ArrayList<>())
+				.usersSet(new ArrayList<>())
 				.build();
 
 		UserLevel userLevel2 = UserLevel.builder()

@@ -49,7 +49,7 @@ public class ItemCard {
 	private boolean resolved;
 
 	@OneToOne
-	private UserLevel requiredLevel;
+	private UserLevel userLevel;
 
 	@OneToOne
 	private ItemCategory itemCategory;

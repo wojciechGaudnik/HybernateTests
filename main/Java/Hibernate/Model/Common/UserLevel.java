@@ -14,6 +14,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Audited
@@ -37,13 +38,13 @@ public class UserLevel implements Serializable {
 	private int value;
 
 	@OneToMany
-	private Set<ItemCard> itemCard = new HashSet<>();
+	private List<ItemCard> itemCardSet;
 
 	@OneToMany
-	private Set<QuestCard> questCard = new HashSet<>();
+	private List<QuestCard> questCardSet;
 
 	@OneToMany
-	private Set<User> user = new HashSet<>();
+	private List<User> usersSet;
 
 
 
