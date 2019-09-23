@@ -4,23 +4,23 @@ import Hibernate.Model.Baskets.GroupItemBasket;
 import Hibernate.Model.Common.ItemCategory;
 import Hibernate.Model.Common.UserLevel;
 import Hibernate.Model.Persons.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.lang.annotation.Target;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Audited
-@Getter
 @Setter
-@Builder
+@Getter
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder(toBuilder = true)
 @Entity(name = "item_cards")
 public class ItemCard {
 
@@ -41,7 +41,7 @@ public class ItemCard {
 
 	@Min(value = 1)
 	@Max(value = 10)
-	@NotEmpty(message = "value is mandatory")
+//	@NotEmpty(message = "value is mandatory")
 	private int value;
 
 	@NotEmpty(message = "description is mandatory")
@@ -61,17 +61,13 @@ public class ItemCard {
 			mappedBy = "itemCard",
 			targetEntity = GroupItemBasket.class,
 			cascade = CascadeType.PERSIST)
-	private List<GroupItemBasket>  groupItemBaskets;
+	private List<GroupItemBasket>  groupItemBaskets = new ArrayList<>();
 
-	@ManyToMany(targetEntity = User.class)
+	@ManyToMany(
+			targetEntity = User.class)
 	@JoinTable(
 			name = "join_user_itemcard",
 			joinColumns = {@JoinColumn(name = "item_card_id")},
-			inverseJoinColumns = {@JoinColumn(name = "user_id")}
-	)
-	private List<User> usersList;
+			inverseJoinColumns = {@JoinColumn(name = "user_id")})
+	private List<User> usersList = new ArrayList<>();
 }
-
-//	@ManyToOne()
-//	@JoinColumn(name = "user_class_id")
-//	private UserClass userClass;

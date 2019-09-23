@@ -1,22 +1,21 @@
 package Hibernate.Model.Common;
 
 import Hibernate.Model.Cards.QuestCard;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Audited
-@Getter
-@Setter
-@Builder
+@Data
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder(toBuilder = true)
 @Entity(name = "quest_categories")
-public class QuestCategory implements Serializable {
+public class QuestCategory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +29,6 @@ public class QuestCategory implements Serializable {
 			mappedBy = "questCategory",
 			targetEntity = QuestCard.class,
 			cascade = CascadeType.PERSIST,
-			fetch = FetchType.EAGER
-	)
-	private List<QuestCard> questCard;
+			fetch = FetchType.EAGER)
+	private List<QuestCard> questCard = new ArrayList<>();
 }

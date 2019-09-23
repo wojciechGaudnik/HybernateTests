@@ -15,9 +15,16 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import static Hibernate.Init.*;
+
+
+
+//todo !!! all DAta into Getter and Setter
+
+
+
 
 //todo one more time email validation !!!
 //todo What if make One Class person and all users will be inherit ??
@@ -58,75 +65,79 @@ public class HibernateMain {
 				.addAnnotatedClass(ItemCard.class)
 //				.configure()
 				.buildSessionFactory();
+
 		Session session=sf.openSession();
 		session.beginTransaction();
-
+		System.out.println("Init -------------------------------------------------------------------------------------");
 
 		initCreepy(session);
-
 		initUserClass(session);
-//		initUserLevel(session);
-//		initItemCategory(session);
-//		initQuestCategory(session);
-//		initGroupItemBasket(session);
-//		initGroupQuestBasket(session);
+		initUserLevel(session);
+		initItemCategory(session);
+		initQuestCategory(session);
+		initGroupItemBasket(session);
+		initGroupQuestBasket(session);
 
-		UserClass userClass1 = session.get(UserClass.class, 1L);
-		UserClass userClass2 = session.get(UserClass.class, 2L);
-
-		Mentor mentor1 = Mentor.builder()
-				.firstName("Mentor name First")
-				.lastName("Mentor last Second")
-				.email("test.mail.pl")
-				.nick("mentor1")
-				.password("mentor")
-				.photoUrl("http://photo.mentor1.com")
-				.userClasses(new ArrayList<>())
-				.build();
-		mentor1.getUserClasses().add(userClass1);
-		mentor1.getUserClasses().add(userClass2);
-
-		userClass1.getMentors().add(mentor1);
-		userClass2.getMentors().add(mentor1);
+		session = closeOpenSession(sf, session);
+		System.out.println("First -------------------------------------------------------------------------------------");
 
 
-		session.save(mentor1);
-		session.update(userClass1);
-		session.update(userClass2);
-
-		UserClass userClass11 = session.get(UserClass.class, 1L);
-		UserClass userClass22 = session.get(UserClass.class, 2L);
-
-		System.out.println(userClass11.getMentors() + " <-----------------------------------");
-		System.out.println(userClass22.getMentors() + " <-----------------------------------");
 
 
-//		Mentor mentor1_but_1 = session.get(Mentor.class, 1L);
-//		System.out.println(mentor1_but_1 + " <------------------------------------");
-//		System.out.println(mentor1_but_1.getFirstName() + " <------------------------------------");
-//		System.out.println(mentor1_but_1.getUserClasses().get(0).getName() + " <------------------------------------");
-//		System.out.println(mentor1_but_1.getUserClasses().get(1).getName() + " <------------------------------------");
 
 
-//		UserLevel userLevel = session.get(UserLevel.class, 1L);
-//		ItemCategory itemCategory = session.get(ItemCategory.class, 1L);
-//		GroupItemBasket groupItemBasket = session.get(GroupItemBasket.class, 1L);
+
+//		ItemCategory itemCategory1 = session.get(ItemCategory.class, 1L);
+//		ItemCategory itemCategory2 = session.get(ItemCategory.class, 2L);
 //
-//		ItemCard itemCard = ItemCard.builder()
-//				.name("Item Card first")
-//				.photoUrl("http://it.is.url.for.photo1.com")
-//				.value(1)
-//				.description("Item Card Description First")
-//				.allowedGroupBuy(true)
-//				.userLevel(userLevel)
-//				.itemCategory(itemCategory)
-//				.groupItemBasket(groupItemBasket)
+//		ItemCard itemCard1 = ItemCard.builder()
+//				.name("Card First")
+//				.photoUrl("http://test.photo1.com")
+//				.value(6)
+//				.description("Description Card First")
+//				.allowedGroupBuy(false)
+//				.build();
+//		ItemCard itemCard2 = ItemCard.builder()
+//				.name("Card Second")
+//				.photoUrl("http://test.photo2.com")
+//				.value(6)
+//				.description("Description Card First")
+//				.allowedGroupBuy(false)
+//				.build();
+//		ItemCard itemCard3 = ItemCard.builder()
+//				.name("Card Third")
+//				.photoUrl("http://test.photo3.com")
+//				.value(6)
+//				.description("Description Card Third")
+//				.allowedGroupBuy(false)
 //				.build();
 //
+//		itemCard1.setItemCategory(itemCategory1);
+//		itemCard2.setItemCategory(itemCategory1);
+//		itemCategory1.getItemCards().add(itemCard3);
+////		itemCard3.setItemCategory(itemCategory2);
 //
-//		session.save(itemCard);
-//		userLevel.getItemCardSet().add(itemCard);
-//		session.merge(userLevel);
+////		itemCategory2.getItemCards().add(itemCard2);
+//
+//		session.save(itemCard1);
+//		session.save(itemCard2);
+//		session.save(itemCard3);
+//		session.save(itemCategory1);
+//
+		session = closeOpenSession(sf, session);
+		System.out.println("Second -------------------------------------------------------------------------------------");
+
+//		ItemCategory itemCategoryTest = session.get(ItemCategory.class, 1L);
+//		ItemCard itemCard1Test = session.get(ItemCard.class, 1L);
+//
+//		System.out.println(itemCategoryTest.getItemCards().get(0).getName());
+//		System.out.println(itemCategoryTest.getItemCards().get(1).getName());
+//		System.out.println(itemCard1Test.getItemCategory().getName());
+//		System.out.println(itemCategoryTest.toString());
+//		itemCategoryTest.getItemCards().forEach(ItemCard::getName);
+//		System.out.println(itemCategoryTest + " <-------");
+//		System.out.println(itemCategoryTest.getItemCards().get(0).getName() + " <---------");
+//		System.out.println(itemCategoryTest.getItemCards().get(1).getName() + " <---------");
 
 
 
@@ -134,36 +145,18 @@ public class HibernateMain {
 
 
 
-
-
-
-
-
-
-
-//		UserClass userClass1 = session.get(UserClass.class, 1L);
-//		UserClass userClass2 = session.get(UserClass.class, 2L);
-//		Mentor mentor = Mentor
-//				.builder()
-//				.firstName("Adam")
-//				.lastName("Stamirowski")
-//				.email("ala@ma.kota.pl")
-//				.nick("dot")
-//				.password("root")
-//				.photoUrl("http://photo.mentor1.com")
-//				.userClasses(new HashSet<>(Set.of(userClass1, userClass2)))
-//				.build();
-//		session.save(mentor);
-//		userClass1.getMentors().add(mentor);
-//		session.merge(userClass1);
-
-
-
-//		updateUserClass(session);
-
+		System.out.println("Stop -------------------------------------------------------------------------------------");
 		session.getTransaction().commit();
 		session.close();
 //		sf.close();
+	}
+
+	private static Session closeOpenSession(SessionFactory sf, Session session) {
+		session.getTransaction().commit();
+		session.close();
+		session = sf.openSession();
+		session.beginTransaction();
+		return session;
 	}
 
 

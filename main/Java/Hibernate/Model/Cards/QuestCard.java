@@ -4,9 +4,7 @@ import Hibernate.Model.Baskets.GroupQuestBasket;
 import Hibernate.Model.Common.QuestCategory;
 import Hibernate.Model.Common.UserLevel;
 import Hibernate.Model.Persons.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -19,7 +17,9 @@ import java.util.UUID;
 @Audited
 @Getter
 @Setter
-@Builder
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder(toBuilder = true)
 @Entity(name = "quest_cards")
 public class QuestCard {
 
@@ -31,16 +31,16 @@ public class QuestCard {
 	@Column(unique = true,  columnDefinition = "uuid", updatable = false)
 	private UUID uuid;
 
-	@Column(unique = true)
+//	@Column(unique = true)
 	@NotEmpty(message = "name is mandatory")
 	private String name;
 
 	@NotEmpty(message = "photoUrl is mandatory")
 	private String photoUrl;
 
-	@Min(value = 1)
-	@Max(value = 10)
-	@NotEmpty(message = "value is mandatory")
+//	@Min(value = 1)
+//	@Max(value = 10)
+//	@NotEmpty(message = "value is mandatory")
 	private int value;
 
 	@NotEmpty(message = "description is mandatory")
@@ -59,16 +59,15 @@ public class QuestCard {
 	@OneToMany(
 			mappedBy = "questCard",
 			targetEntity = GroupQuestBasket.class,
-			cascade = CascadeType.PERSIST
-//			fetch = FetchType.EAGER
-	)
+			cascade = CascadeType.PERSIST)
+//todo			fetch = FetchType.EAGER
 	private List<GroupQuestBasket> groupQuestBasket;
 
-	@ManyToMany(targetEntity = User.class)
+	@ManyToMany(
+			targetEntity = User.class	)
 	@JoinTable(
 			name = "join_user_questcard",
 			joinColumns = {@JoinColumn(name = "quest_card_id")},
-			inverseJoinColumns = {@JoinColumn(name = "user_id")}
-	)
+			inverseJoinColumns = {@JoinColumn(name = "user_id")}	)
 	private List<User> usersList;
 }

@@ -1,30 +1,33 @@
 package Hibernate.Model.Persons;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.io.Serializable;
+import javax.validation.constraints.NotEmpty;
 
 @Audited
 @Getter
 @Setter
-@Builder
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder(toBuilder = true)
 @Entity(name = "creepy")
-public class Creepy implements Serializable {
+public class Creepy{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 
-	@NotEmpty(message = "firstName is mandatory")
+	@NotNull(message = "firstName is mandatory")
+	@Size(min = 3, max = 200)
 	private String firstName;
 
-	@NotEmpty(message = "lastName is mandatory")
+	@org.hibernate.validator.constraints.NotEmpty(message = "lastName is mandatory")
 	private String lastName;
 
 	@Column(unique = true)

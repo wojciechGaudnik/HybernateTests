@@ -6,9 +6,7 @@ import Hibernate.Model.Cards.ItemCard;
 import Hibernate.Model.Cards.QuestCard;
 import Hibernate.Model.Common.UserClass;
 import Hibernate.Model.Common.UserLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -19,7 +17,9 @@ import java.util.List;
 @Audited
 @Getter
 @Setter
-@Builder
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder(toBuilder = true)
 @Entity(name = "users")
 public class User {
 
@@ -50,80 +50,68 @@ public class User {
 	@NotEmpty(message = "photo is mandatory")
 	private String photoUrl;
 
-	// todo
+	// todo https://thoughts-on-java.org/hibernate-tips-elementcollection/
 //	private List<ItemCard> resolvedItemsCards;
 //
 //	private List<QuestCard> resolvedQuestsCards;
 
 	@OneToMany(
 			targetEntity = GroupQuestBasket.class,
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER)
 	private List<GroupQuestBasket> groupQuestBasketsOwned;
 
 	@OneToMany(
 			targetEntity = GroupItemBasket.class,
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER)
 	private List<GroupItemBasket> groupItemBasketsOwned;
 
 	@NotEmpty(message = "userLevel is mandatory")
 	@ManyToOne(
 			targetEntity = UserLevel.class,
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER	)
 	@JoinColumn(name = "user_level_id")
 	private UserLevel userLevel;
 
 	@NotEmpty(message = "userClass is mandatory")
 	@ManyToOne(
 			targetEntity = UserClass.class,
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER	)
 	@JoinColumn(name = "user_class_id")
 	private UserClass userClass;
 
 	@ManyToMany(
 			targetEntity = GroupItemBasket.class,
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER	)
 	@JoinTable(
 			name = "join_user_groupitembasket",
 			joinColumns = {@JoinColumn(name = "user_id")},
-			inverseJoinColumns = {@JoinColumn(name = "group_item_basket_id")}
-	)
+			inverseJoinColumns = {@JoinColumn(name = "group_item_basket_id")})
 	private List<GroupItemBasket> groupItemBaskets;
 
 	@ManyToMany(
 			targetEntity = GroupQuestBasket.class,
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER	)
 	@JoinTable(
 			name = "join_user_groupquestbasket",
 			joinColumns = {@JoinColumn(name = "user_id")},
-			inverseJoinColumns = {@JoinColumn(name = "group_quest_basket_id")}
-	)
+			inverseJoinColumns = {@JoinColumn(name = "group_quest_basket_id")}	)
 	private List<GroupQuestBasket> groupQuestBaskets;
 
 	@ManyToMany(
 			targetEntity = ItemCard.class,
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER	)
 	@JoinTable(
 			name = "join_user_itemcard",
 			joinColumns = {@JoinColumn(name = "user_id")},
-			inverseJoinColumns = {@JoinColumn(name = "item_card_id")}
-	)
+			inverseJoinColumns = {@JoinColumn(name = "item_card_id")}	)
 	private List<ItemCard> itemCards;
 
 	@ManyToMany(
 			targetEntity = QuestCard.class,
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER	)
 	@JoinTable(
 			name = "join_user_questcard",
 			joinColumns = {@JoinColumn(name = "user_id")},
-			inverseJoinColumns = {@JoinColumn(name = "quest_card_id")}
-	)
+			inverseJoinColumns = {@JoinColumn(name = "quest_card_id")}	)
 	private List<QuestCard> questCards;
 }

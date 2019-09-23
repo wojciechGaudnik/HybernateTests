@@ -2,23 +2,22 @@ package Hibernate.Model.Common;
 
 import Hibernate.Model.Persons.Mentor;
 import Hibernate.Model.Persons.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Audited
 @Getter
 @Setter
-@Builder
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder(toBuilder = true)
 @Entity(name = "user_classes")
-public class UserClass implements Serializable {
+public class UserClass {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,21 +31,16 @@ public class UserClass implements Serializable {
 	private String photoUrl;
 
 	@ManyToMany(
-			mappedBy = "userClasses",
-			targetEntity= Mentor.class,
-			cascade = CascadeType.MERGE
-//			fetch = FetchType.EAGER
-	)
-//	@JoinTable(
-//			name = "join_mentor_userclass",
-//			joinColumns = {@JoinColumn(name = "user_class_id")},
-//			inverseJoinColumns = {@JoinColumn(name = "mentor_id")}
-//	)
+			targetEntity= Mentor.class	)
+	@JoinTable(
+			name = "join_userclasses_mentors",
+			joinColumns = {@JoinColumn(name = "user_class_id")},
+			inverseJoinColumns = {@JoinColumn(name = "mentor_id")}	)
 	private List<Mentor> mentors;
 
 	@OneToMany(targetEntity = User.class,
 			mappedBy = "userClass",
 			cascade = CascadeType.ALL,
 			fetch = FetchType.EAGER)
-	private List<User> users;
+	private List<User> users = new ArrayList<>();
 }

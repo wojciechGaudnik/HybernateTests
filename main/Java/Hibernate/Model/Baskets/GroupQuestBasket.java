@@ -3,9 +3,7 @@ package Hibernate.Model.Baskets;
 import Hibernate.Model.Cards.QuestCard;
 import Hibernate.Model.Common.UserClass;
 import Hibernate.Model.Persons.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -17,7 +15,9 @@ import java.util.List;
 @Audited
 @Getter
 @Setter
-@Builder
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder(toBuilder = true)
 @Entity(name = "group_quest_baskets")
 public class GroupQuestBasket {
 
@@ -38,27 +38,23 @@ public class GroupQuestBasket {
 	@NotEmpty(message = "owner is mandatory")
 	@ManyToOne(
 			targetEntity = UserClass.class,
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER	)
 	@JoinColumn(name = "owner_id")
 	private User owner;
 
 	@NotEmpty(message = "quest card is mandatory")
 	@ManyToOne(
 			targetEntity = QuestCard.class,
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER	)
 	@JoinColumn(name = "quest_card_id")
 	private QuestCard questCard;
 
 	@ManyToMany(
 			targetEntity = User.class,
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER	)
 	@JoinTable(
 			name = "join_user_groupquestbasket",
 			joinColumns = {@JoinColumn(name = "group_quest_basket_id")},
-			inverseJoinColumns = {@JoinColumn(name = "user_id")}
-	)
+			inverseJoinColumns = {@JoinColumn(name = "user_id")}	)
 	private List<User> users;
 }
