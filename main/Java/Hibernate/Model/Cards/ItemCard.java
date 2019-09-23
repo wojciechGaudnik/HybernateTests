@@ -3,6 +3,7 @@ package Hibernate.Model.Cards;
 import Hibernate.Model.Baskets.GroupItemBasket;
 import Hibernate.Model.Common.ItemCategory;
 import Hibernate.Model.Common.UserLevel;
+import Hibernate.Model.Persons.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.lang.annotation.Target;
+import java.util.List;
 import java.util.UUID;
 
 @Audited
@@ -46,14 +49,29 @@ public class ItemCard {
 
 	private boolean allowedGroupBuy;
 
-	private boolean resolved;
-
-	@OneToOne
+	@ManyToOne()
+	@JoinColumn(name = "user_level_id")
 	private UserLevel userLevel;
 
-	@OneToOne
+	@ManyToOne(targetEntity = ItemCategory.class)
+	@JoinColumn(name = "item_category_id")
 	private ItemCategory itemCategory;
 
-	@OneToOne
-	private GroupItemBasket groupItemBasket;
+	@OneToMany(
+			mappedBy = "itemCard",
+			targetEntity = GroupItemBasket.class,
+			cascade = CascadeType.PERSIST)
+	private List<GroupItemBasket>  groupItemBaskets;
+
+	@ManyToMany(targetEntity = User.class)
+	@JoinTable(
+			name = "join_user_itemcard",
+			joinColumns = {@JoinColumn(name = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name = "item_card_id")}
+	)
+	private List<User> usersList;
 }
+
+//	@ManyToOne()
+//	@JoinColumn(name = "user_class_id")
+//	private UserClass userClass;

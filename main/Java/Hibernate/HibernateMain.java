@@ -68,43 +68,40 @@ public class HibernateMain {
 		Session session=sf.openSession();
 		session.beginTransaction();
 
-		initCreepy(session);
-		initItemCategory(session);
-		initQuestCategory(session);
-		initUserClass(session);
-		initUserLevel(session);
-		initGroupItemBasket(session);
-		initGroupQuestBasket(session);
+//		initCreepy(session);
+//		initItemCategory(session);
+//		initQuestCategory(session);
+//		initUserClass(session);
+//		initUserLevel(session);
+//		initGroupItemBasket(session);
+//		initGroupQuestBasket(session);
 
 
-		UserLevel userLevel = session.get(UserLevel.class, 1L);
-		ItemCategory itemCategory = session.get(ItemCategory.class, 1L);
-		GroupItemBasket groupItemBasket = session.get(GroupItemBasket.class, 1L);
-
-
-
-		ItemCard itemCard = ItemCard.builder()
-				.name("Item Card first")
-				.photoUrl("http://it.is.url.for.photo1.com")
-				.value(1)
-				.description("Item Card Description First")
-				.allowedGroupBuy(true)
-				.resolved(false)
-				.userLevel(userLevel)
-				.itemCategory(itemCategory)
-				.groupItemBasket(groupItemBasket)
-				.build();
-
-
-		session.save(itemCard);
-		userLevel.getItemCardSet().add(itemCard);
-		session.merge(userLevel);
-
-//		UserLevel userLevel1 = session.get(UserLevel.class, 1L);
-
-
-
+//		UserLevel userLevel = session.get(UserLevel.class, 1L);
+//		ItemCategory itemCategory = session.get(ItemCategory.class, 1L);
+//		GroupItemBasket groupItemBasket = session.get(GroupItemBasket.class, 1L);
 //
+//		ItemCard itemCard = ItemCard.builder()
+//				.name("Item Card first")
+//				.photoUrl("http://it.is.url.for.photo1.com")
+//				.value(1)
+//				.description("Item Card Description First")
+//				.allowedGroupBuy(true)
+//				.userLevel(userLevel)
+//				.itemCategory(itemCategory)
+//				.groupItemBasket(groupItemBasket)
+//				.build();
+//
+//
+//		session.save(itemCard);
+//		userLevel.getItemCardSet().add(itemCard);
+//		session.merge(userLevel);
+
+
+
+
+
+
 
 
 
@@ -187,9 +184,9 @@ public class HibernateMain {
 		UserLevel userLevel1 = UserLevel.builder()
 				.name("User Level First")
 				.value(1)
-				.itemCardSet(new ArrayList<>())
-				.questCardSet(new ArrayList<>())
-				.usersSet(new ArrayList<>())
+				.itemCardList(new ArrayList<>())
+				.questCardList(new ArrayList<>())
+				.usersList(new ArrayList<>())
 				.build();
 
 		UserLevel userLevel2 = UserLevel.builder()

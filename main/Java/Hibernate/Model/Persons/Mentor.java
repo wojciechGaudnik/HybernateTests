@@ -1,5 +1,6 @@
 package Hibernate.Model.Persons;
 
+import Hibernate.Model.Cards.QuestCard;
 import Hibernate.Model.Common.UserClass;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,8 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Audited
 @Getter
@@ -48,5 +48,10 @@ public class Mentor implements Serializable {
 	private String photoUrl;
 
 	@ManyToMany(targetEntity = UserClass.class)
-	private Set<UserClass> userClasses = new HashSet<>();   // todo ---> one mentor can have many class ---> UserClass
+	@JoinTable(
+			name = "join_mentor_userclass",
+			joinColumns = {@JoinColumn(name = "user_class_id")},
+			inverseJoinColumns = {@JoinColumn(name = "mentor_id")}
+	)
+	private List<UserClass> userClasses;
 }

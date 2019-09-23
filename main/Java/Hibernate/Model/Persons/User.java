@@ -14,8 +14,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Audited
 @Getter
@@ -51,23 +50,50 @@ public class User {
 	@NotEmpty(message = "photo is mandatory")
 	private String photoUrl;
 
+	// todo
+//	private List<ItemCard> resolvedItemsCards;
+//
+//	private List<QuestCard> resolvedQuestsCards;
+
 	@NotEmpty(message = "userLevel is mandatory")
-	@ManyToOne(targetEntity = UserLevel.class)
+	@ManyToOne()
+	@JoinColumn(name = "user_level_id")
 	private UserLevel userLevel;
 
 	@NotEmpty(message = "userClass is mandatory")
-	@ManyToOne(targetEntity = UserClass.class)
+	@ManyToOne()
+	@JoinColumn(name = "user_class_id")
 	private UserClass userClass;
 
 	@ManyToMany(targetEntity = GroupItemBasket.class)
-	private Set<GroupItemBasket> groupItemBaskets = new HashSet<>();
+	@JoinTable(
+			name = "join_user_groupitembasket",
+			joinColumns = {@JoinColumn(name = "group_item_basket_id")},
+			inverseJoinColumns = {@JoinColumn(name = "user_id")}
+	)
+	private List<GroupItemBasket> groupItemBaskets;
 
 	@ManyToMany(targetEntity = GroupQuestBasket.class)
-	private Set<GroupQuestBasket> groupQuestBaskets = new HashSet<>();
+	@JoinTable(
+			name = "join_user_groupquestbasket",
+			joinColumns = {@JoinColumn(name = "group_quest_basket_id")},
+			inverseJoinColumns = {@JoinColumn(name = "user_id")}
+	)
+	private List<GroupQuestBasket> groupQuestBaskets;
 
 	@ManyToMany(targetEntity = ItemCard.class)
-	private Set<ItemCard> itemCards = new HashSet<>();
+	@JoinTable(
+			name = "join_user_itemcard",
+			joinColumns = {@JoinColumn(name = "item_card_id")},
+			inverseJoinColumns = {@JoinColumn(name = "user_id")}
+	)
+	private List<ItemCard> itemCards;
 
 	@ManyToMany(targetEntity = QuestCard.class)
-	private Set<QuestCard> questCards = new HashSet<>();
+	@JoinTable(
+			name = "join_user_questcard",
+			joinColumns = {@JoinColumn(name = "quest_card_id")},
+			inverseJoinColumns = {@JoinColumn(name = "user_id")}
+	)
+	private List<QuestCard> questCards;
 }

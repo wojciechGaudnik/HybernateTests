@@ -13,9 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Audited
 @Getter
@@ -37,15 +35,24 @@ public class UserLevel implements Serializable {
 	@NotEmpty(message = "value is mandatory")
 	private int value;
 
-	@OneToMany
-	private List<ItemCard> itemCardSet;
+	@OneToMany(
+			mappedBy = "userLevel",
+			targetEntity = ItemCard.class,
+			cascade = CascadeType.PERSIST)
+	private List<ItemCard> itemCardList;
 
-	@OneToMany
-	private List<QuestCard> questCardSet;
+	@OneToMany(
+			mappedBy = "userLevel",
+			targetEntity = QuestCard.class,
+			cascade = CascadeType.PERSIST)
+//			fetch = FetchType.EAGER)
+	private List<QuestCard> questCardList;
 
-	@OneToMany
-	private List<User> usersSet;
-
-
+	@OneToMany(
+			mappedBy = "userLevel",
+			targetEntity = User.class,
+			cascade = CascadeType.PERSIST,
+			fetch = FetchType.EAGER)
+	private List<User> usersList;
 
 }

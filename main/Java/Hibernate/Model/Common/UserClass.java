@@ -10,8 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Audited
 @Getter
@@ -32,8 +31,16 @@ public class UserClass implements Serializable {
 	private String photoUrl;
 
 	@ManyToMany(targetEntity = Mentor.class)
-	private Set<Mentor> mentors = new HashSet<>();  //todo one UserClass can have many Mentors --->
+	@JoinTable(
+			name = "join_mentor_userclass",
+			joinColumns = {@JoinColumn(name = "mentor_id")},
+			inverseJoinColumns = {@JoinColumn(name = "user_class_id")}
+	)
+	private List<Mentor> mentors;
 
-	@OneToMany(targetEntity = User.class)
-	private Set<User> users = new HashSet<>();  //todo one UserClass can have many Mentors --->
+	@OneToMany(targetEntity = User.class,
+			mappedBy = "userClass",
+			cascade = CascadeType.ALL,
+			fetch = FetchType.EAGER)
+	private List<User> users;
 }

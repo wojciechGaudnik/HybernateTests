@@ -9,8 +9,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Audited
 @Getter
@@ -28,9 +27,15 @@ public class GroupQuestBasket {
 	private String name;
 
 	@NotEmpty(message = "quest card is mandatory")
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name = "quest_card_id")
 	private QuestCard questCard;
 
-	@OneToMany(targetEntity = User.class)
-	private Set<User> users = new HashSet<>();
+	@ManyToMany(targetEntity = User.class)
+	@JoinTable(
+			name = "join_user_groupquestbasket",
+			joinColumns = {@JoinColumn(name = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name = "group_quest_basket_id")}
+	)
+	private List<User> users;
 }

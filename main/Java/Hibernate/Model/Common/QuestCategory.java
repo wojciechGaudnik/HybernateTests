@@ -9,8 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Audited
 @Getter
@@ -27,6 +26,11 @@ public class QuestCategory implements Serializable {
 	@NotEmpty(message = "name is mandatory")
 	private String name;
 
-	@OneToMany
-	private Set<QuestCard> questCard = new HashSet<>();
+	@OneToMany(
+			mappedBy = "questCategory",
+			targetEntity = QuestCard.class,
+			cascade = CascadeType.PERSIST,
+			fetch = FetchType.EAGER
+	)
+	private List<QuestCard> questCard;
 }
