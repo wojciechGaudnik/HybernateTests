@@ -55,45 +55,75 @@ public class User {
 //
 //	private List<QuestCard> resolvedQuestsCards;
 
+	@OneToMany(
+			targetEntity = GroupQuestBasket.class,
+			fetch = FetchType.EAGER
+	)
+	private List<GroupQuestBasket> groupQuestBasketsOwned;
+
+	@OneToMany(
+			targetEntity = GroupItemBasket.class,
+			fetch = FetchType.EAGER
+	)
+	private List<GroupItemBasket> groupItemBasketsOwned;
+
 	@NotEmpty(message = "userLevel is mandatory")
-	@ManyToOne()
+	@ManyToOne(
+			targetEntity = UserLevel.class,
+			fetch = FetchType.EAGER
+	)
 	@JoinColumn(name = "user_level_id")
 	private UserLevel userLevel;
 
 	@NotEmpty(message = "userClass is mandatory")
-	@ManyToOne()
+	@ManyToOne(
+			targetEntity = UserClass.class,
+			fetch = FetchType.EAGER
+	)
 	@JoinColumn(name = "user_class_id")
 	private UserClass userClass;
 
-	@ManyToMany(targetEntity = GroupItemBasket.class)
+	@ManyToMany(
+			targetEntity = GroupItemBasket.class,
+			fetch = FetchType.EAGER
+	)
 	@JoinTable(
 			name = "join_user_groupitembasket",
-			joinColumns = {@JoinColumn(name = "group_item_basket_id")},
-			inverseJoinColumns = {@JoinColumn(name = "user_id")}
+			joinColumns = {@JoinColumn(name = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name = "group_item_basket_id")}
 	)
 	private List<GroupItemBasket> groupItemBaskets;
 
-	@ManyToMany(targetEntity = GroupQuestBasket.class)
+	@ManyToMany(
+			targetEntity = GroupQuestBasket.class,
+			fetch = FetchType.EAGER
+	)
 	@JoinTable(
 			name = "join_user_groupquestbasket",
-			joinColumns = {@JoinColumn(name = "group_quest_basket_id")},
-			inverseJoinColumns = {@JoinColumn(name = "user_id")}
+			joinColumns = {@JoinColumn(name = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name = "group_quest_basket_id")}
 	)
 	private List<GroupQuestBasket> groupQuestBaskets;
 
-	@ManyToMany(targetEntity = ItemCard.class)
+	@ManyToMany(
+			targetEntity = ItemCard.class,
+			fetch = FetchType.EAGER
+	)
 	@JoinTable(
 			name = "join_user_itemcard",
-			joinColumns = {@JoinColumn(name = "item_card_id")},
-			inverseJoinColumns = {@JoinColumn(name = "user_id")}
+			joinColumns = {@JoinColumn(name = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name = "item_card_id")}
 	)
 	private List<ItemCard> itemCards;
 
-	@ManyToMany(targetEntity = QuestCard.class)
+	@ManyToMany(
+			targetEntity = QuestCard.class,
+			fetch = FetchType.EAGER
+	)
 	@JoinTable(
 			name = "join_user_questcard",
-			joinColumns = {@JoinColumn(name = "quest_card_id")},
-			inverseJoinColumns = {@JoinColumn(name = "user_id")}
+			joinColumns = {@JoinColumn(name = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name = "quest_card_id")}
 	)
 	private List<QuestCard> questCards;
 }

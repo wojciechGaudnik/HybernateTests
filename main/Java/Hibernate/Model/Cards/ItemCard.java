@@ -66,8 +66,8 @@ public class ItemCard {
 	@ManyToMany(targetEntity = User.class)
 	@JoinTable(
 			name = "join_user_itemcard",
-			joinColumns = {@JoinColumn(name = "user_id")},
-			inverseJoinColumns = {@JoinColumn(name = "item_card_id")}
+			joinColumns = {@JoinColumn(name = "item_card_id")},
+			inverseJoinColumns = {@JoinColumn(name = "user_id")}
 	)
 	private List<User> usersList;
 }

@@ -67,8 +67,8 @@ public class QuestCard {
 	@ManyToMany(targetEntity = User.class)
 	@JoinTable(
 			name = "join_user_questcard",
-			joinColumns = {@JoinColumn(name = "user_id")},
-			inverseJoinColumns = {@JoinColumn(name = "quest_card_id")}
+			joinColumns = {@JoinColumn(name = "quest_card_id")},
+			inverseJoinColumns = {@JoinColumn(name = "user_id")}
 	)
 	private List<User> usersList;
 }

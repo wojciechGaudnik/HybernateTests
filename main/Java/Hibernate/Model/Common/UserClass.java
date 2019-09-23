@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Audited
@@ -30,12 +31,17 @@ public class UserClass implements Serializable {
 	@NotEmpty(message = "photoUrl is mandatory")
 	private String photoUrl;
 
-	@ManyToMany(targetEntity = Mentor.class)
-	@JoinTable(
-			name = "join_mentor_userclass",
-			joinColumns = {@JoinColumn(name = "mentor_id")},
-			inverseJoinColumns = {@JoinColumn(name = "user_class_id")}
+	@ManyToMany(
+			mappedBy = "userClasses",
+			targetEntity= Mentor.class,
+			cascade = CascadeType.MERGE
+//			fetch = FetchType.EAGER
 	)
+//	@JoinTable(
+//			name = "join_mentor_userclass",
+//			joinColumns = {@JoinColumn(name = "user_class_id")},
+//			inverseJoinColumns = {@JoinColumn(name = "mentor_id")}
+//	)
 	private List<Mentor> mentors;
 
 	@OneToMany(targetEntity = User.class,

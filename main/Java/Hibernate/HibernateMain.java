@@ -11,17 +11,18 @@ import Hibernate.Model.Common.UserLevel;
 import Hibernate.Model.Persons.Creepy;
 import Hibernate.Model.Persons.Mentor;
 import Hibernate.Model.Persons.User;
-import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+
+import static Hibernate.Init.*;
 
 //todo one more time email validation !!!
 //todo What if make One Class person and all users will be inherit ??
+//todo change EAGER into Hibernate.initialize(object proxy);
+//todo serializable ?? why here ?
 
 //@NotEmpty – validates that the property is not null or empty; can be applied to String, Collection, Map or Array values
 //@NotBlank – can be applied only to text values and validated that the property is not null or whitespace
@@ -30,21 +31,13 @@ import java.util.Set;
 //@Past and @PastOrPresent – validate that a date value is in the past or the past including the present; can be applied to date types including those added in Java 8
 //@Future and @FutureOrPresent – validates that a date value is in the future, or in the future including the present
 //@NotNull(message = "Name cannot be null")
-//private String name;
-//
 //@AssertTrue
 //private boolean working;
-//
 //@Size(min = 10, max = 200, message
 //		= "About Me must be between 10 and 200 characters")
-//private String aboutMe;
-//
 //@Min(value = 18, message = "Age should not be less than 18")
 //@Max(value = 150, message = "Age should not be greater than 150")
-//private int age;
-//
 //@Email(message = "Email should be valid")
-//private String email;
 
 
 public class HibernateMain {
@@ -68,13 +61,51 @@ public class HibernateMain {
 		Session session=sf.openSession();
 		session.beginTransaction();
 
-//		initCreepy(session);
+
+		initCreepy(session);
+
+		initUserClass(session);
+//		initUserLevel(session);
 //		initItemCategory(session);
 //		initQuestCategory(session);
-//		initUserClass(session);
-//		initUserLevel(session);
 //		initGroupItemBasket(session);
 //		initGroupQuestBasket(session);
+
+		UserClass userClass1 = session.get(UserClass.class, 1L);
+		UserClass userClass2 = session.get(UserClass.class, 2L);
+
+		Mentor mentor1 = Mentor.builder()
+				.firstName("Mentor name First")
+				.lastName("Mentor last Second")
+				.email("test.mail.pl")
+				.nick("mentor1")
+				.password("mentor")
+				.photoUrl("http://photo.mentor1.com")
+				.userClasses(new ArrayList<>())
+				.build();
+		mentor1.getUserClasses().add(userClass1);
+		mentor1.getUserClasses().add(userClass2);
+
+		userClass1.getMentors().add(mentor1);
+		userClass2.getMentors().add(mentor1);
+
+
+		session.save(mentor1);
+		session.update(userClass1);
+		session.update(userClass2);
+
+		UserClass userClass11 = session.get(UserClass.class, 1L);
+		UserClass userClass22 = session.get(UserClass.class, 2L);
+
+		System.out.println(userClass11.getMentors() + " <-----------------------------------");
+		System.out.println(userClass22.getMentors() + " <-----------------------------------");
+
+
+//		Mentor mentor1_but_1 = session.get(Mentor.class, 1L);
+//		System.out.println(mentor1_but_1 + " <------------------------------------");
+//		System.out.println(mentor1_but_1.getFirstName() + " <------------------------------------");
+//		System.out.println(mentor1_but_1.getUserClasses().get(0).getName() + " <------------------------------------");
+//		System.out.println(mentor1_but_1.getUserClasses().get(1).getName() + " <------------------------------------");
 
 
 //		UserLevel userLevel = session.get(UserLevel.class, 1L);
@@ -135,107 +166,5 @@ public class HibernateMain {
 //		sf.close();
 	}
 
-	private static void initGroupQuestBasket(Session session) {
-		GroupQuestBasket groupQuestBasket1 = GroupQuestBasket.builder()
-				.name("Group Quest Basket First")
-				.build();
 
-		GroupQuestBasket groupQuestBasket2 = GroupQuestBasket.builder()
-				.name("Group Quest Basket Second")
-				.build();
-
-		session.save(groupQuestBasket1);
-		session.save(groupQuestBasket2);
-	}
-
-	private static void initGroupItemBasket(Session session) {
-		GroupItemBasket groupItemBasket1 = GroupItemBasket.builder()
-				.name("Group Item Basket First")
-				.build();
-
-		GroupItemBasket groupItemBasket2 = GroupItemBasket.builder()
-				.name("Group Item Basket Second")
-				.build();
-
-		session.save(groupItemBasket1);
-		session.save(groupItemBasket2);
-	}
-
-	private static void initCreepy(Session session) {
-		Creepy creepy = Creepy
-				.builder()
-				.firstName("Creepy first name")
-				.lastName("Creepy last name")
-				.email("test.dont@work.com")
-				.nick("gg666")
-				.password("666")
-				.photoUrl("http://to.jest.photo.pl")
-				.build();
-		session.save(creepy);
-	}
-
-	private static void updateUserClass(Session session) {
-		UserClass userClass = session.get(UserClass.class, 1L);
-		userClass.setName("New name3");
-		session.merge(userClass);
-	}
-
-	private static void initUserLevel(Session session) {
-		UserLevel userLevel1 = UserLevel.builder()
-				.name("User Level First")
-				.value(1)
-				.itemCardList(new ArrayList<>())
-				.questCardList(new ArrayList<>())
-				.usersList(new ArrayList<>())
-				.build();
-
-		UserLevel userLevel2 = UserLevel.builder()
-				.name("User Level Second")
-				.value(1)
-				.build();
-
-		session.save(userLevel1);
-		session.save(userLevel2);
-	}
-
-	private static void initQuestCategory(Session session) {
-		QuestCategory questCategory1 = QuestCategory.builder()
-				.name("Quest Category First")
-				.build();
-
-		QuestCategory questCategory2 = QuestCategory.builder()
-				.name("Quest Category Second")
-				.build();
-
-		session.save(questCategory1);
-		session.save(questCategory2);
-	}
-
-	private static void initItemCategory(Session session) {
-		ItemCategory itemCategory1 = ItemCategory.builder()
-				.name("Item Category First")
-				.build();
-
-		ItemCategory itemCategory2 = ItemCategory.builder()
-				.name("Item Category Second")
-				.build();
-
-		session.save(itemCategory1);
-		session.save(itemCategory2);
-	}
-
-	private static void initUserClass(Session session) {
-		UserClass userClass1 = UserClass.builder()
-				.name("User Class First")
-				.photoUrl("http://test.pl/photo1.jpg")
-				.build();
-
-		UserClass userClass2 = UserClass.builder()
-				.name("User Class Second")
-				.photoUrl("http://test.pl/photo2.jpg")
-				.build();
-
-		session.save(userClass1);
-		session.save(userClass2);
-	}
 }

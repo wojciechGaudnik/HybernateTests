@@ -1,6 +1,5 @@
 package Hibernate.Model.Persons;
 
-import Hibernate.Model.Cards.QuestCard;
 import Hibernate.Model.Common.UserClass;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Audited
@@ -47,11 +47,14 @@ public class Mentor implements Serializable {
 	@NotEmpty(message = "photo is mandatory")
 	private String photoUrl;
 
-	@ManyToMany(targetEntity = UserClass.class)
+	@ManyToMany(
+			targetEntity = UserClass.class,
+			fetch = FetchType.EAGER
+	)
 	@JoinTable(
 			name = "join_mentor_userclass",
-			joinColumns = {@JoinColumn(name = "user_class_id")},
-			inverseJoinColumns = {@JoinColumn(name = "mentor_id")}
+			joinColumns = {@JoinColumn(name = "mentor_id")},
+			inverseJoinColumns = {@JoinColumn(name = "user_class_id")}
 	)
 	private List<UserClass> userClasses;
 }

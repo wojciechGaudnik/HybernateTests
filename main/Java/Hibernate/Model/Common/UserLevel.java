@@ -38,14 +38,15 @@ public class UserLevel implements Serializable {
 	@OneToMany(
 			mappedBy = "userLevel",
 			targetEntity = ItemCard.class,
-			cascade = CascadeType.PERSIST)
+			cascade = CascadeType.PERSIST
+	)
 	private List<ItemCard> itemCardList;
 
 	@OneToMany(
 			mappedBy = "userLevel",
 			targetEntity = QuestCard.class,
-			cascade = CascadeType.PERSIST)
-//			fetch = FetchType.EAGER)
+			cascade = CascadeType.PERSIST
+	)
 	private List<QuestCard> questCardList;
 
 	@OneToMany(
