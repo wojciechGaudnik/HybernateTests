@@ -6,12 +6,15 @@ import Hibernate.Model.Cards.ItemCard;
 import Hibernate.Model.Cards.QuestCard;
 import Hibernate.Model.Common.UserClass;
 import Hibernate.Model.Common.UserLevel;
-import lombok.*;
-import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
+import lombok.*;
 import javax.persistence.*;
+import org.hibernate.envers.Audited;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Audited
@@ -27,33 +30,36 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 
-	@NotEmpty(message = "firstName is mandatory")
+	@NotBlank(message = "firstName is mandatory")
+	@Size(min = 3, max = 100, message = "length out of range ")
 	private String firstName;
 
-	@NotEmpty(message = "lastName is mandatory")
+	@NotBlank(message = "last is mandatory")
+	@Size(min = 3, max = 100, message = "length out of range ")
 	private String lastName;
 
 	@Column(unique = true)
-	@NotEmpty(message = "email is mandatory")
+	@NotBlank(message = "email is mandatory")
 	@Email(message="Please provide a valid email address")
-//	@Retention(RUNTIME)   //todo <--- check if help with catch errors !!!
 	private String email;
 
 	@Column(unique = true)
-	@NotEmpty(message = "nick is mandatory")
+	@NotBlank(message = "nick is mandatory")
+	@Size(min = 3, max = 50, message = "length out of range ")
 	private String nick;
 
 	@Column(unique = true)
-	@NotEmpty(message = "password is mandatory")
+	@NotBlank(message = "password is mandatory")
 	private String password;  //todo <--- how save password
 
-	@NotEmpty(message = "photo is mandatory")
+	@NotBlank(message = "photo is mandatory")
+	@Size(min = 3, max = 100, message = "length out of range ")
 	private String photoUrl;
 
 	// todo https://thoughts-on-java.org/hibernate-tips-elementcollection/
-//	private List<ItemCard> resolvedItemsCards;
+//	private List<ItemCard> endedItems;
 //
-//	private List<QuestCard> resolvedQuestsCards;
+//	private List<QuestCard> endedQuests;
 
 	@OneToMany(
 			targetEntity = GroupQuestBasket.class,

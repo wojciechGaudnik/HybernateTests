@@ -14,6 +14,8 @@ import Hibernate.Model.Persons.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.AuditReaderFactory;
 
 import java.util.*;
 
@@ -21,15 +23,16 @@ import static Hibernate.Init.*;
 
 
 
-//todo !!! all DAta into Getter and Setter
+//		AuditReader auditReader = AuditReaderFactory.get(session);
+//				Creepy oldCreepy = auditReader.find(Creepy.class, 1L, 1);
+//		System.out.println(oldCreepy);
 
-
-
-
+//todo ASK MENTOR how make interface with hibernate users,mentors,creepy
 //todo one more time email validation !!!
 //todo What if make One Class person and all users will be inherit ??
 //todo change EAGER into Hibernate.initialize(object proxy);
 //todo serializable ?? why here ?
+//todo	@Retention(RUNTIME)   //todo <--- check if help with catch errors !!!
 
 //@NotEmpty – validates that the property is not null or empty; can be applied to String, Collection, Map or Array values
 //@NotBlank – can be applied only to text values and validated that the property is not null or whitespace
@@ -45,7 +48,8 @@ import static Hibernate.Init.*;
 //@Min(value = 18, message = "Age should not be less than 18")
 //@Max(value = 150, message = "Age should not be greater than 150")
 //@Email(message = "Email should be valid")
-
+//If you worry about the lack of a predefined entry order, then you can use either the @OrderBy or @OrderColumn JPA annotations.
+//@Temporal(TemporalType.TIMESTAMP)
 
 public class HibernateMain {
 	public static void main(String[] args) {
@@ -65,9 +69,9 @@ public class HibernateMain {
 				.addAnnotatedClass(ItemCard.class)
 //				.configure()
 				.buildSessionFactory();
-
 		Session session=sf.openSession();
 		session.beginTransaction();
+
 		System.out.println("Init -------------------------------------------------------------------------------------");
 
 		initCreepy(session);

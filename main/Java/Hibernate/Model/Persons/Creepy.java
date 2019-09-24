@@ -1,14 +1,12 @@
 package Hibernate.Model.Persons;
 
 import lombok.*;
-import org.hibernate.envers.Audited;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import javax.persistence.*;
+import org.hibernate.envers.Audited;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 
 @Audited
 @Getter
@@ -23,27 +21,29 @@ public class Creepy{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 
-	@NotNull(message = "firstName is mandatory")
-	@Size(min = 3, max = 200)
+	@NotBlank(message = "firstName is mandatory")
+	@Size(min = 3, max = 100, message = "length out of range ")
 	private String firstName;
 
-	@org.hibernate.validator.constraints.NotEmpty(message = "lastName is mandatory")
+	@NotBlank(message = "last is mandatory")
+	@Size(min = 3, max = 100, message = "length out of range ")
 	private String lastName;
 
 	@Column(unique = true)
-	@NotEmpty(message = "email is mandatory")
-	@Email(message="Please provide a valid email address") //todo <--- neither Javax nor hibernate validator
-//	@Retention(RUNTIME)   //todo <--- check if help with catch errors !!!
+	@NotBlank(message = "email is mandatory")
+	@Email(message="Please provide a valid email address")
 	private String email;
 
 	@Column(unique = true)
-	@NotEmpty(message = "nick is mandatory")
+	@NotBlank(message = "nick is mandatory")
+	@Size(min = 3, max = 50, message = "length out of range ")
 	private String nick;
 
 	@Column(unique = true)
-	@NotEmpty(message = "password is mandatory")
+	@NotBlank(message = "password is mandatory")
 	private String password;  //todo <--- how save password
 
-	@NotEmpty(message = "photo is mandatory")
+	@NotBlank(message = "photo is mandatory")
+	@Size(min = 3, max = 100, message = "length out of range ")
 	private String photoUrl;
 }
