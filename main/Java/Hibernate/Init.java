@@ -7,12 +7,13 @@ import Hibernate.Model.Common.QuestCategory;
 import Hibernate.Model.Common.UserClass;
 import Hibernate.Model.Common.UserLevel;
 import Hibernate.Model.Persons.Creepy;
+import Hibernate.Model.Persons.Mentor;
 import org.hibernate.Session;
 
 
 public class Init {
 
-	 static void initCreepy(Session session) {
+	 static void creepy(Session session) {
 		Creepy creepy = Creepy
 				.builder()
 				.firstName("Creepy first name")
@@ -25,7 +26,7 @@ public class Init {
 		session.save(creepy);
 	}
 
-	static void initUserClass(Session session) {
+	static void userClass(Session session) {
 		UserClass userClass1 = UserClass.builder()
 				.name("User Class First")
 				.photoUrl("http://test.pl/photo1.jpg")
@@ -43,7 +44,7 @@ public class Init {
 		session.save(userClass3);
 	}
 
-	static void initUserLevel(Session session) {
+	static void userLevel(Session session) {
 		UserLevel userLevel1 = UserLevel.builder()
 				.name("User Level First")
 				.value(1)
@@ -54,14 +55,14 @@ public class Init {
 				.build();
 		UserLevel userLevel3 = UserLevel.builder()
 				.name("User Level Third")
-				.value(2)
+				.value(3)
 				.build();
 		session.save(userLevel1);
 		session.save(userLevel2);
 		session.save(userLevel3);
 	}
 
-	static void initItemCategory(Session session) {
+	static void itemCategory(Session session) {
 		ItemCategory itemCategory1 = ItemCategory.builder()
 				.name("Item Category First")
 				.build();
@@ -76,7 +77,7 @@ public class Init {
 		session.save(itemCategory3);
 	}
 
-	static void initQuestCategory(Session session) {
+	static void questCategory(Session session) {
 		QuestCategory questCategory1 = QuestCategory.builder()
 				.name("Quest Category First")
 				.build();
@@ -91,7 +92,7 @@ public class Init {
 		session.save(questCategory3);
 	}
 
-	static void initGroupItemBasket(Session session) {
+	static void groupItemBasket(Session session) {
 		GroupItemBasket groupItemBasket1 = GroupItemBasket.builder()
 				.name("Group Item Basket First")
 				.value(1)
@@ -112,7 +113,7 @@ public class Init {
 		session.save(groupItemBasket3);
 	}
 
-	static void initGroupQuestBasket(Session session) {
+	static void groupQuestBasket(Session session) {
 		GroupQuestBasket groupQuestBasket1 = GroupQuestBasket.builder()
 				.name("Group Quest Basket First")
 				.value(0)
@@ -133,12 +134,44 @@ public class Init {
 		session.save(groupQuestBasket3);
 	}
 
+	static void mentor(Session session) {
+		Mentor mentor1 = Mentor.builder()
+				.firstName("Mentor name First")
+				.lastName("Mentor last First")
+				.email("mentor1@com.pl")
+				.nick("mentor1")
+				.password("asdfg")
+				.photoUrl("http://mentor.photo1.pl")
+				.build();
+		Mentor mentor2 = Mentor.builder()
+				.firstName("Mentor name Second")
+				.lastName("Mentor last Second")
+				.email("mentor2@com.pl")
+				.nick("mentor2")
+				.password("asdfg")
+				.photoUrl("http://mentor.photo2.pl")
+				.build();
+		Mentor mentor3 = Mentor.builder()
+				.firstName("Mentor name Third")
+				.lastName("Mentor last Third")
+				.email("mentor3@com.pl")
+				.nick("mentor3")
+				.password("asdfg")
+				.photoUrl("http://mentor.photo3.pl")
+				.build();
+		session.save(mentor1);
+		session.save(mentor2);
+		session.save(mentor3);
+	}
+
 
 	static void updateUserClass(Session session) {
 		UserClass userClass = session.get(UserClass.class, 1L);
 		userClass.setName("New name3");
 		session.merge(userClass);
 	}
+
+
 
 
 

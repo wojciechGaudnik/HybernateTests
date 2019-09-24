@@ -4,9 +4,10 @@ import Hibernate.Model.Persons.Mentor;
 import Hibernate.Model.Persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +25,13 @@ public class UserClass {
 	private Long Id;
 
 	@Column(unique = true)
-	@NotEmpty(message = "name is mandatory")
+	@NotBlank(message = "name is mandatory")
+	@Size(min = 3, max = 100, message = "length out of range ")
 	private String name;
 
-	@NotEmpty(message = "photoUrl is mandatory")
+	@Column(unique = true)
+	@NotBlank(message = "photoUrl is mandatory")
+	@Size(min = 3, max = 100, message = "length out of range ")
 	private String photoUrl;
 
 	@ManyToMany(

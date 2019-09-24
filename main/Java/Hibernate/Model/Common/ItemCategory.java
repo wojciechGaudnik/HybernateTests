@@ -3,9 +3,10 @@ package Hibernate.Model.Common;
 import Hibernate.Model.Cards.ItemCard;
 import lombok.*;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,8 @@ public class ItemCategory {
 	private Long Id;
 
 	@Column(unique = true)
-	@NotEmpty(message = "name is mandatory")
+	@NotBlank(message = "name is mandatory")
+	@Size(min = 3, max = 100, message = "length out of range min = 3, max = 100 <--- check !!!")
 	private String name;
 
 	@OneToMany(

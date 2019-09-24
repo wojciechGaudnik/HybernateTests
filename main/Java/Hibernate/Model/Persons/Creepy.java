@@ -31,6 +31,7 @@ public class Creepy{
 
 	@Column(unique = true)
 	@NotBlank(message = "email is mandatory")
+	@Size(min = 3, max = 100, message = "length out of range ")
 	@Email(message="Please provide a valid email address")
 	private String email;
 
@@ -39,11 +40,8 @@ public class Creepy{
 	@Size(min = 3, max = 50, message = "length out of range ")
 	private String nick;
 
-	@Column(unique = true)
 	@NotBlank(message = "password is mandatory")
 	private String password;  //todo <--- how save password
 
-	@NotBlank(message = "photo is mandatory")
-	@Size(min = 3, max = 100, message = "length out of range ")
 	private String photoUrl;
 }

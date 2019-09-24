@@ -14,13 +14,6 @@ import Hibernate.Model.Persons.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.envers.AuditReader;
-import org.hibernate.envers.AuditReaderFactory;
-
-import java.util.*;
-
-import static Hibernate.Init.*;
-
 
 
 //		AuditReader auditReader = AuditReaderFactory.get(session);
@@ -54,7 +47,7 @@ import static Hibernate.Init.*;
 public class HibernateMain {
 	public static void main(String[] args) {
 
-		SessionFactory sf=new Configuration()
+		SessionFactory sessionFactory=new Configuration()
 				.addPackage("Hibernate")
 				.addAnnotatedClass(User.class)
 				.addAnnotatedClass(Creepy.class)
@@ -69,20 +62,21 @@ public class HibernateMain {
 				.addAnnotatedClass(ItemCard.class)
 //				.configure()
 				.buildSessionFactory();
-		Session session=sf.openSession();
+		Session session=sessionFactory.openSession();
 		session.beginTransaction();
 
 		System.out.println("Init -------------------------------------------------------------------------------------");
 
-		initCreepy(session);
-		initUserClass(session);
-		initUserLevel(session);
-		initItemCategory(session);
-		initQuestCategory(session);
-		initGroupItemBasket(session);
-		initGroupQuestBasket(session);
+		Init.creepy(session);
+		Init.mentor(session);
+		Init.userClass(session);
+		Init.userLevel(session);
+		Init.itemCategory(session);
+		Init.questCategory(session);
+//		Init.groupItemBasket(session);
+//		Init.groupQuestBasket(session);
 
-		session = closeOpenSession(sf, session);
+		session = closeOpenSession(sessionFactory, session);
 		System.out.println("First -------------------------------------------------------------------------------------");
 
 
@@ -128,7 +122,7 @@ public class HibernateMain {
 //		session.save(itemCard3);
 //		session.save(itemCategory1);
 //
-		session = closeOpenSession(sf, session);
+		session = closeOpenSession(sessionFactory, session);
 		System.out.println("Second -------------------------------------------------------------------------------------");
 
 //		ItemCategory itemCategoryTest = session.get(ItemCategory.class, 1L);
@@ -152,7 +146,7 @@ public class HibernateMain {
 		System.out.println("Stop -------------------------------------------------------------------------------------");
 		session.getTransaction().commit();
 		session.close();
-//		sf.close();
+		sessionFactory.close();
 	}
 
 	private static Session closeOpenSession(SessionFactory sf, Session session) {
