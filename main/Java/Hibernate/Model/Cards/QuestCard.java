@@ -6,11 +6,12 @@ import Hibernate.Model.Common.UserLevel;
 import Hibernate.Model.Persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,23 +28,24 @@ public class QuestCard {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 
-	@GeneratedValue
-	@Column(unique = true,  columnDefinition = "uuid", updatable = false)
+	@Column(unique = true,  columnDefinition = "uuid")
 	private UUID uuid;
 
-//	@Column(unique = true)
-	@NotEmpty(message = "name is mandatory")
+	@Column(unique = true)
+	@NotBlank(message = "name is mandatory")
+	@Size(min = 3, max = 100, message = "length out of range min = 3, max = 100 <--- check !!!")
 	private String name;
 
-	@NotEmpty(message = "photoUrl is mandatory")
+	@Column(unique = true)
+	@Size(min = 3, max = 100, message = "length out of range ")
 	private String photoUrl;
 
-//	@Min(value = 1)
-//	@Max(value = 10)
-//	@NotEmpty(message = "value is mandatory")
+	@Range(min = 1L, max = 10000L, message = "out of range min = 1L, max =  10000L <--- check !!!")
 	private int value;
 
-	@NotEmpty(message = "description is mandatory")
+	@Column(unique = true)
+	@NotBlank(message = "description is mandatory")
+	@Size(min = 3, max = 500, message = "length out of range min = 3, max = 500 <--- check !!!")
 	private String description;
 
 	private boolean allowedGroupBuy;
@@ -52,6 +54,7 @@ public class QuestCard {
 	@JoinColumn(name = "user_level_id")
 	private UserLevel userLevel;
 
+	@NotNull(message = "questCategory is mandatory")
 	@ManyToOne
 	@JoinColumn(name = "quest_category_id")
 	private QuestCategory questCategory;

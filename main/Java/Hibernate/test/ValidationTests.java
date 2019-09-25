@@ -1,5 +1,3 @@
-package Hibernate;
-
 import Hibernate.Model.Baskets.GroupItemBasket;
 import Hibernate.Model.Baskets.GroupQuestBasket;
 import Hibernate.Model.Cards.ItemCard;
@@ -16,19 +14,17 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.testng.annotations.*;
 
-
 import javax.validation.ConstraintViolationException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ValidationTests {
 
 	private static Session session;
 	private static SessionFactory sessionFactory;
 
-//	@BeforeTest
-	@BeforeClass
-	public void before(){
+	@BeforeClass(dependsOnGroups = "InitTestsStop")
+	private static void beforeClass(){
 		sessionFactory = new Configuration()
 				.addPackage("Hibernate")
 				.addAnnotatedClass(User.class)
@@ -47,17 +43,27 @@ public class ValidationTests {
 		session.beginTransaction();
 	}
 
-//	@AfterTest
+	@BeforeMethod
+	private static void beforeMethod(){
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+	}
+
+	@AfterMethod
+	private static void afterMethod(){
+		session.getTransaction().rollback();
+		session.close();
+	}
+
 	@AfterClass
-	public void after(){
-//		session.flush();
-//		session.getTransaction().commit();
-		session.getTransaction().markRollbackOnly();
+	private static void afterClass(){
 		session.close();
 		sessionFactory.close();
 	}
 
-	@Test
+
+
+	@Test(groups = "Independent")
 	public void creepy() {
 		Creepy creepy = Creepy
 				.builder()
@@ -137,9 +143,9 @@ public class ValidationTests {
 		creepy = Creepy
 				.builder()
 				.firstName("Test2")
-				.lastName("Creepy last name")
+				.lastName("Creepy last name2")
 				.email("test.dont1@work.com")
-				.nick("root")
+				.nick("root2")
 				.password("root")
 				.photoUrl("http://to.jest.photo.pl")
 				.build();
@@ -148,11 +154,9 @@ public class ValidationTests {
 			session.save(finalCreepy5);
 			session.save(finalCreepy6);
 		});
-		session.getTransaction().rollback();
-		session.beginTransaction();
 	}
 
-	@Test
+	@Test(groups = "Independent")
 	public void mentor(){
 		Mentor mentor1 = Mentor.builder()
 				.firstName("")
@@ -187,15 +191,14 @@ public class ValidationTests {
 				.photoUrl("http://mentor.photo1.pl")
 				.build();
 		Mentor mentor2 = Mentor.builder()
-				.firstName("Test")
-				.lastName("Mentor last First")
-				.email("mentor1@com.pl")
-				.nick("mentor1")
+				.firstName("Test2")
+				.lastName("Mentor last First2")
+				.email("mentor1@com.pl2")
+				.nick("mentor12")
 				.password("asdfg")
 				.photoUrl("http://mentor.photo1.pl")
 				.build();
-		session.getTransaction().rollback();
-		session.beginTransaction();
+        rollBackAndBegin();
 		session.save(mentor1);
 		assertThrows (org.hibernate.exception.ConstraintViolationException.class, () -> {
 			session.save(mentor2);
@@ -203,7 +206,7 @@ public class ValidationTests {
 
 	}
 
-	@Test
+	@Test(groups = "Independent")
 	public void userClass(){
 		UserClass userClass = UserClass
 				.builder()
@@ -235,17 +238,14 @@ public class ValidationTests {
 				.photoUrl("asdf")
 				.build();
 		UserClass userClass4 = userClass;
-		session.getTransaction().rollback();
-		session.beginTransaction();
+		rollBackAndBegin();
 		session.save(userClass3);
 		assertThrows(org.hibernate.exception.ConstraintViolationException.class, () -> {
 			session.save(userClass4);
 		});
-		session.getTransaction().rollback();
-		session.beginTransaction();
 	}
 
-	@Test
+	@Test(groups = "Independent")
 	public void userLevel(){
 		UserLevel userLevel = UserLevel
 				.builder()
@@ -286,17 +286,14 @@ public class ValidationTests {
 				.value(90)
 				.build();
 		UserLevel userLevel5 = userLevel;
-		session.getTransaction().rollback();
-		session.beginTransaction();
+        rollBackAndBegin();
 		session.save(userLevel4);
 		assertThrows(org.hibernate.exception.ConstraintViolationException.class, () -> {
 			session.save(userLevel5);
 		});
-		session.getTransaction().rollback();
-		session.beginTransaction();
 	}
 
-	@Test
+	@Test(groups = "Independent")
 	public void itemCategory(){
 		ItemCategory itemCategory = ItemCategory
 				.builder()
@@ -322,15 +319,14 @@ public class ValidationTests {
 				.builder()
 				.name("Test")
 				.build();
-		session.getTransaction().rollback();
-		session.beginTransaction();
+		rollBackAndBegin();
 		session.save(itemCategory3);
 		assertThrows(org.hibernate.exception.ConstraintViolationException.class, () -> {
 			session.save(itemCategory4);
 		});
 	}
 
-	@Test
+	@Test(groups = "Independent")
 	public void questCategory(){
 		QuestCategory questCategory = QuestCategory
 				.builder()
@@ -356,16 +352,24 @@ public class ValidationTests {
 				.builder()
 				.name("Test")
 				.build();
-		session.getTransaction().rollback();
-		session.beginTransaction();
+		rollBackAndBegin();
 		session.save(questCategory3);
 		assertThrows(org.hibernate.exception.ConstraintViolationException.class, () -> {
 			session.save(questCategory4);
 		});
 	}
 
-	@Test
-	public void user(){
 
+
+
+
+
+
+
+	private static void rollBackAndBegin(){
+		session.getTransaction().rollback();
+		session.beginTransaction();
 	}
+
+
 }

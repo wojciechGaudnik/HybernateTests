@@ -5,11 +5,10 @@ import Hibernate.Model.Common.UserClass;
 import Hibernate.Model.Persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Audited
@@ -26,23 +25,22 @@ public class GroupQuestBasket {
 	private Long Id;
 
 	@Column(unique = true)
-	@NotEmpty(message = "name is mandatory")
+	@NotBlank(message = "name is mandatory")
+	@Size(min = 3, max = 100, message = "length out of range min = 3, max = 100 <--- check !!!")
 	private String name;
 
-	@Min(value = 0)
-	@Max(value = 1000)
+	@Range(min = 1L, max = 1000000L, message = "out of range min = 1L, max = 1000000L,  <--- check !!!")
 	private int value;
 
-	private boolean close;
+	private boolean closeBasket;
 
-	@NotEmpty(message = "owner is mandatory")
+	@NotNull(message = "owner is mandatory")
 	@ManyToOne(
-			targetEntity = UserClass.class,
+			targetEntity = User.class,
 			fetch = FetchType.EAGER	)
 	@JoinColumn(name = "owner_id")
 	private User owner;
 
-	@NotEmpty(message = "quest card is mandatory")
 	@ManyToOne(
 			targetEntity = QuestCard.class,
 			fetch = FetchType.EAGER	)

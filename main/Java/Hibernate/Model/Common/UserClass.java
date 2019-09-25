@@ -44,7 +44,7 @@ public class UserClass {
 
 	@OneToMany(targetEntity = User.class,
 			mappedBy = "userClass",
-			cascade = CascadeType.ALL,
+			cascade = CascadeType.PERSIST,
 			fetch = FetchType.EAGER)
 	private List<User> users = new ArrayList<>();
 }

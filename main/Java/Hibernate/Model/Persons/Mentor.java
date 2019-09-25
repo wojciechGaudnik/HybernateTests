@@ -46,6 +46,8 @@ public class Mentor {
 	@NotBlank(message = "password is mandatory")
 	private String password;  //todo <--- how save password
 
+	@Column(unique = true)
+	@Size(min = 3, max = 100, message = "length out of range ")
 	private String photoUrl;
 
 	@UniqueElements

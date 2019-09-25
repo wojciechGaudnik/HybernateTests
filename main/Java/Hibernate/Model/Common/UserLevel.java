@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Range;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder(toBuilder = true)
 @Entity(name = "user_levels")
-public class UserLevel {
+public class UserLevel implements Serializable {  //todo remove if not necessary
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,6 @@ public class UserLevel {
 	@Size(min = 3, max = 100, message = "length out of range min = 3, max = 100 <--- check !!!")
 	private String name;
 
-	@Column(unique = true)
 	@Range(min = 1L, max = 100L, message = "out of range min = 1L, max = 100L  <--- check !!!")
 	private int value;
 

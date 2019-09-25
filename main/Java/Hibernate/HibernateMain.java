@@ -15,12 +15,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.Properties;
+
 
 //		AuditReader auditReader = AuditReaderFactory.get(session);
 //				Creepy oldCreepy = auditReader.find(Creepy.class, 1L, 1);
 //		System.out.println(oldCreepy);
 
-//todo ASK MENTOR how make interface with hibernate users,mentors,creepy
+//todo ASK MENTOR how make interface with hibernate users,mentors,creepy https://www.baeldung.com/hibernate-inheritance
 //todo one more time email validation !!!
 //todo What if make One Class person and all users will be inherit ??
 //todo change EAGER into Hibernate.initialize(object proxy);
@@ -47,7 +49,9 @@ import org.hibernate.cfg.Configuration;
 public class HibernateMain {
 	public static void main(String[] args) {
 
-		SessionFactory sessionFactory=new Configuration()
+//		Properties properties = new Properties();
+//		properties.put("hibernate.hbm2ddl.auto", "update");
+		SessionFactory sessionFactory = new Configuration()
 				.addPackage("Hibernate")
 				.addAnnotatedClass(User.class)
 				.addAnnotatedClass(Creepy.class)
@@ -60,99 +64,36 @@ public class HibernateMain {
 				.addAnnotatedClass(GroupQuestBasket.class)
 				.addAnnotatedClass(QuestCard.class)
 				.addAnnotatedClass(ItemCard.class)
-//				.configure()
+//				.addProperties(properties)
 				.buildSessionFactory();
-		Session session=sessionFactory.openSession();
+		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 
 		System.out.println("Init -------------------------------------------------------------------------------------");
 
-		Init.creepy(session);
-		Init.mentor(session);
-		Init.userClass(session);
-		Init.userLevel(session);
-		Init.itemCategory(session);
-		Init.questCategory(session);
-//		Init.groupItemBasket(session);
-//		Init.groupQuestBasket(session);
-
-		session = closeOpenSession(sessionFactory, session);
 		System.out.println("First -------------------------------------------------------------------------------------");
 
-
-
-
-
-
-
-//		ItemCategory itemCategory1 = session.get(ItemCategory.class, 1L);
-//		ItemCategory itemCategory2 = session.get(ItemCategory.class, 2L);
-//
-//		ItemCard itemCard1 = ItemCard.builder()
-//				.name("Card First")
-//				.photoUrl("http://test.photo1.com")
-//				.value(6)
-//				.description("Description Card First")
-//				.allowedGroupBuy(false)
-//				.build();
-//		ItemCard itemCard2 = ItemCard.builder()
-//				.name("Card Second")
-//				.photoUrl("http://test.photo2.com")
-//				.value(6)
-//				.description("Description Card First")
-//				.allowedGroupBuy(false)
-//				.build();
-//		ItemCard itemCard3 = ItemCard.builder()
-//				.name("Card Third")
-//				.photoUrl("http://test.photo3.com")
-//				.value(6)
-//				.description("Description Card Third")
-//				.allowedGroupBuy(false)
-//				.build();
-//
-//		itemCard1.setItemCategory(itemCategory1);
-//		itemCard2.setItemCategory(itemCategory1);
-//		itemCategory1.getItemCards().add(itemCard3);
-////		itemCard3.setItemCategory(itemCategory2);
-//
-////		itemCategory2.getItemCards().add(itemCard2);
-//
-//		session.save(itemCard1);
-//		session.save(itemCard2);
-//		session.save(itemCard3);
-//		session.save(itemCategory1);
-//
-		session = closeOpenSession(sessionFactory, session);
 		System.out.println("Second -------------------------------------------------------------------------------------");
 
-//		ItemCategory itemCategoryTest = session.get(ItemCategory.class, 1L);
-//		ItemCard itemCard1Test = session.get(ItemCard.class, 1L);
-//
-//		System.out.println(itemCategoryTest.getItemCards().get(0).getName());
-//		System.out.println(itemCategoryTest.getItemCards().get(1).getName());
-//		System.out.println(itemCard1Test.getItemCategory().getName());
-//		System.out.println(itemCategoryTest.toString());
-//		itemCategoryTest.getItemCards().forEach(ItemCard::getName);
-//		System.out.println(itemCategoryTest + " <-------");
-//		System.out.println(itemCategoryTest.getItemCards().get(0).getName() + " <---------");
-//		System.out.println(itemCategoryTest.getItemCards().get(1).getName() + " <---------");
-
-
-
-
-
-
-
 		System.out.println("Stop -------------------------------------------------------------------------------------");
+
+
+
+
+
+
 		session.getTransaction().commit();
 		session.close();
 		sessionFactory.close();
 	}
 
-	private static Session closeOpenSession(SessionFactory sf, Session session) {
+
+
+
+	private static Session closeOpenSession(SessionFactory sessionFactory, Session session) {
 		session.getTransaction().commit();
 		session.close();
-		session = sf.openSession();
+		session = sessionFactory.openSession();
 		session.beginTransaction();
 		return session;
 	}

@@ -11,10 +11,7 @@ import lombok.*;
 import javax.persistence.*;
 import org.hibernate.envers.Audited;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.Email;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Audited
@@ -52,6 +49,8 @@ public class User {
 	@NotBlank(message = "password is mandatory")
 	private String password;  //todo <--- how save password
 
+	@Column(unique = true)
+	@Size(min = 3, max = 100, message = "length out of range ")
 	private String photoUrl;
 
 	// todo https://thoughts-on-java.org/hibernate-tips-elementcollection/
@@ -69,14 +68,13 @@ public class User {
 			fetch = FetchType.EAGER)
 	private List<GroupItemBasket> groupItemBasketsOwned;
 
-	@NotEmpty(message = "userLevel is mandatory")
+	@NotNull(message = "userLevel is mandatory")
 	@ManyToOne(
 			targetEntity = UserLevel.class,
 			fetch = FetchType.EAGER	)
 	@JoinColumn(name = "user_level_id")
 	private UserLevel userLevel;
 
-	@NotEmpty(message = "userClass is mandatory")
 	@ManyToOne(
 			targetEntity = UserClass.class,
 			fetch = FetchType.EAGER	)

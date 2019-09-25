@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="DB tests" verbose="1">
+    <test name="AllTests" preserve-order="true">
+        <classes>
+            <class name="Hibernate.test.InitTests"/>
+            <class name="com.exploreselenium.AnnotationsTest"/>
+        </classes>
+    </test>
+</suite>
