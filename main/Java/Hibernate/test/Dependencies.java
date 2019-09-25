@@ -57,7 +57,7 @@ public class Dependencies {
 //		cleanDB();
 	}
 
-//	@Test
+	@Test
 	public static void initAll() {
 		assertDoesNotThrow(() -> {
 			InitEntities.creepy(session);
@@ -74,124 +74,124 @@ public class Dependencies {
 		});
 	}
 
-//	@Test
-//	public static void changeQuestCardCategory(){
-//		InitEntities.questCategory(session);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//		InitEntities.questCard(session);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//
-//		QuestCategory questCategory2 = session.get(QuestCategory.class, 2L);
-//		QuestCard questCard1 = session.get(QuestCard.class, 1L);
-//
-//		questCard1.setQuestCategory(questCategory2);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//		QuestCategory questCategory2Alertest = session.get(QuestCategory.class, 2L);
-//
-//		List<QuestCard> questCardList = questCategory2Alertest.getQuestCard();
-//
-//		StringBuilder test = new StringBuilder();
-//		for (QuestCard questCard : questCardList) {
-//			test.append(questCard.getName());
-//		}
-//		String ans = "Quest Card SecondQuest Card First";
-//		assertEquals(test.toString(), ans);
-//	}
-//
-//	@Test
-//	public static void deleteQuestCategoryIfCardExistAndIfNotExist(){
-//		InitEntities.questCategory(session);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//		InitEntities.questCard(session);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//
-//		QuestCategory questCategory1 = session.get(QuestCategory.class, 1L);
-//		QuestCategory questCategory2 = session.get(QuestCategory.class, 2L);
-//
-//		QuestCategory finalQuestCategory = questCategory1;
-//		assertThrows(javax.persistence.PersistenceException.class, () -> {
-//			session.delete(finalQuestCategory);
-//			session = closeAfterExceptionAndBegin(sessionFactory, session);
-//		});
-//		closeAfterExceptionAndBegin();
-//
-//		QuestCard questCard1 = session.get(QuestCard.class, 1L);
-//		questCard1.setQuestCategory(questCategory2);
-//		questCategory1 = session.get(QuestCategory.class, 1L);
-//		QuestCategory finalQuestCategory1 = questCategory1;
-//		assertDoesNotThrow(() -> {
-//			session.delete(finalQuestCategory1);
-//			commitAndBegin();
-//		});
-//		closeAfterExceptionAndBegin();
-//	}
-//
-//	@Test
-//	public static void updateQuestCategoryAndCheckQuestCard(){
-//		InitEntities.questCategory(session);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//		InitEntities.questCard(session);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//
-//		QuestCategory questCategory1 = session.get(QuestCategory.class, 1L);
-//		questCategory1.setName("Test Name");
-//		commitAndBegin();
-//		questCategory1 = session.get(QuestCategory.class, 1L);
-//		QuestCard questCard1 = session.get(QuestCard.class, 1L);
-//		assertEquals("Test Name", questCategory1.getName());
-//		assertEquals("Test Name", questCard1.getQuestCategory().getName());
-//	}
-//
-//	@Test
-//	public static void deleteQuestCardAndCheckIfCategoryExist(){
-//		InitEntities.questCategory(session);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//		InitEntities.questCard(session);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//
-//		QuestCard questCard1 = session.get(QuestCard.class, 1L);
-//		session.delete(questCard1);
-//		commitAndBegin();
-//
-//		List questCategoryList = session.createQuery("from quest_categories").list();
-//		List questCardList = session.createQuery("from quest_cards").list();
-//		assertEquals(3, questCategoryList.size());
-//		assertEquals(2, questCardList.size());
-//
-//	}
-//
-//	@Test
-//	public static void changeNameCategoryByQuestCard(){
-//		InitEntities.questCategory(session);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//		InitEntities.questCard(session);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//
-//		QuestCard questCard1 = session.get(QuestCard.class, 1L);
-//		questCard1.getQuestCategory().setName("New name");
-//		commitAndBegin();
-//
-//		QuestCategory questCategory1 = session.get(QuestCategory.class, 1L);
-//		assertEquals("New name", questCategory1.getName());
-//	}
-//
-//	@Test
-//	public static void changeNameQuestCardByQuestCategory(){
-//		InitEntities.questCategory(session);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//		InitEntities.questCard(session);
-//		session = closeAfterExceptionAndBegin(sessionFactory, session);
-//
-//		QuestCategory questCategory1 = session.get(QuestCategory.class, 1L);
-//		questCategory1.getQuestCard().get(0).setName("New Name");
-//
-//		commitAndBegin();
-//
-//		QuestCard questCard1 = session.get(QuestCard.class, 1L);
-//		assertEquals("New Name", questCard1.getName());
-//	}
+	@Test
+	public static void changeQuestCardCategory(){
+		InitEntities.questCategory(session);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+		InitEntities.questCard(session);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+
+		QuestCategory questCategory2 = session.get(QuestCategory.class, 2L);
+		QuestCard questCard1 = session.get(QuestCard.class, 1L);
+
+		questCard1.setQuestCategory(questCategory2);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+		QuestCategory questCategory2Alertest = session.get(QuestCategory.class, 2L);
+
+		List<QuestCard> questCardList = questCategory2Alertest.getQuestCard();
+
+		StringBuilder test = new StringBuilder();
+		for (QuestCard questCard : questCardList) {
+			test.append(questCard.getName());
+		}
+		String ans = "Quest Card SecondQuest Card First";
+		assertEquals(test.toString(), ans);
+	}
 
 	@Test
+	public static void deleteQuestCategoryIfCardExistAndIfNotExist(){
+		InitEntities.questCategory(session);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+		InitEntities.questCard(session);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+
+		QuestCategory questCategory1 = session.get(QuestCategory.class, 1L);
+		QuestCategory questCategory2 = session.get(QuestCategory.class, 2L);
+
+		QuestCategory finalQuestCategory = questCategory1;
+		assertThrows(javax.persistence.PersistenceException.class, () -> {
+			session.delete(finalQuestCategory);
+			session = closeAfterExceptionAndBegin(sessionFactory, session);
+		});
+		closeAfterExceptionAndBegin();
+
+		QuestCard questCard1 = session.get(QuestCard.class, 1L);
+		questCard1.setQuestCategory(questCategory2);
+		questCategory1 = session.get(QuestCategory.class, 1L);
+		QuestCategory finalQuestCategory1 = questCategory1;
+		assertDoesNotThrow(() -> {
+			session.delete(finalQuestCategory1);
+			commitAndBegin();
+		});
+		closeAfterExceptionAndBegin();
+	}
+
+	@Test
+	public static void updateQuestCategoryAndCheckQuestCard(){
+		InitEntities.questCategory(session);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+		InitEntities.questCard(session);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+
+		QuestCategory questCategory1 = session.get(QuestCategory.class, 1L);
+		questCategory1.setName("Test Name");
+		commitAndBegin();
+		questCategory1 = session.get(QuestCategory.class, 1L);
+		QuestCard questCard1 = session.get(QuestCard.class, 1L);
+		assertEquals("Test Name", questCategory1.getName());
+		assertEquals("Test Name", questCard1.getQuestCategory().getName());
+	}
+
+	@Test
+	public static void deleteQuestCardAndCheckIfCategoryExist(){
+		InitEntities.questCategory(session);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+		InitEntities.questCard(session);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+
+		QuestCard questCard1 = session.get(QuestCard.class, 1L);
+		session.delete(questCard1);
+		commitAndBegin();
+
+		List questCategoryList = session.createQuery("from quest_categories").list();
+		List questCardList = session.createQuery("from quest_cards").list();
+		assertEquals(3, questCategoryList.size());
+		assertEquals(2, questCardList.size());
+
+	}
+
+	@Test
+	public static void changeNameCategoryByQuestCard(){
+		InitEntities.questCategory(session);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+		InitEntities.questCard(session);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+
+		QuestCard questCard1 = session.get(QuestCard.class, 1L);
+		questCard1.getQuestCategory().setName("New name");
+		commitAndBegin();
+
+		QuestCategory questCategory1 = session.get(QuestCategory.class, 1L);
+		assertEquals("New name", questCategory1.getName());
+	}
+
+	@Test
+	public static void changeNameQuestCardByQuestCategory(){
+		InitEntities.questCategory(session);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+		InitEntities.questCard(session);
+		session = closeAfterExceptionAndBegin(sessionFactory, session);
+
+		QuestCategory questCategory1 = session.get(QuestCategory.class, 1L);
+		questCategory1.getQuestCard().get(0).setName("New Name");
+
+		commitAndBegin();
+
+		QuestCard questCard1 = session.get(QuestCard.class, 1L);
+		assertEquals("New Name", questCard1.getName());
+	}
+
+//	@Test
 	public static void checkHistory(){
 		InitEntities.questCategory(session);
 		session = closeAfterExceptionAndBegin(sessionFactory, session);
