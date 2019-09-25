@@ -57,8 +57,6 @@ public class QuestCard {
 	@NotNull(message = "questCategory is mandatory")
 	@ManyToOne(
 			targetEntity = QuestCategory.class)
-//			fetch = FetchType.EAGER,
-//			cascade = CascadeType.ALL)
 	@JoinColumn(name = "quest_category_id")
 	private QuestCategory questCategory;
 

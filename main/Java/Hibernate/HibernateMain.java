@@ -21,6 +21,7 @@ import java.util.Properties;
 //				Creepy oldCreepy = auditReader.find(Creepy.class, 1L, 1);
 //		System.out.println(oldCreepy);
 
+//todo @ToString @ wquals and hascode
 //todo ASK MENTOR how make interface with hibernate users,mentors,creepy https://www.baeldung.com/hibernate-inheritance
 //todo one more time email validation !!!
 //todo What if make One Class person and all users will be inherit ??

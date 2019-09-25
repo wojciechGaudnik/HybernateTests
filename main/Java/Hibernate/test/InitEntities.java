@@ -165,10 +165,6 @@ class InitEntities {
 		User user1 = session.get(User.class, 1L);
 		User user2 = session.get(User.class, 2L);
 		User user3 = session.get(User.class, 3L);
-		System.out.println(user1.getFirstName());
-		System.out.println(user2.getFirstName());
-		System.out.println(user3.getFirstName());
-		System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------v");
 		GroupItemBasket groupItemBasket1 = GroupItemBasket.builder()
 				.name("Group Item Basket First")
 				.value(1)
