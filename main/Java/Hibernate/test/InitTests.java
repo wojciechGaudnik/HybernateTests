@@ -13,7 +13,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import org.junit.jupiter.api.Disabled;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -22,6 +21,7 @@ import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//@Test(priority = 10)
 public class InitTests {
 
 	private static Session session;

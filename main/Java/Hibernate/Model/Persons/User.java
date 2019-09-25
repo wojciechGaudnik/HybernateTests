@@ -59,31 +59,33 @@ public class User {
 //	private List<QuestCard> endedQuests;
 
 	@OneToMany(
-			targetEntity = GroupQuestBasket.class,
-			fetch = FetchType.EAGER)
+			targetEntity = GroupQuestBasket.class)
+//			fetch = FetchType.EAGER)
 	private List<GroupQuestBasket> groupQuestBasketsOwned;
 
 	@OneToMany(
-			targetEntity = GroupItemBasket.class,
-			fetch = FetchType.EAGER)
+			targetEntity = GroupItemBasket.class)
+//			fetch = FetchType.EAGER)
 	private List<GroupItemBasket> groupItemBasketsOwned;
 
 	@NotNull(message = "userLevel is mandatory")
 	@ManyToOne(
-			targetEntity = UserLevel.class,
-			fetch = FetchType.EAGER	)
+//			targetEntity = UserLevel.class,
+//			fetch = FetchType.EAGER,
+			cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_level_id")
 	private UserLevel userLevel;
 
 	@ManyToOne(
 			targetEntity = UserClass.class,
-			fetch = FetchType.EAGER	)
+//			fetch = FetchType.EAGER,
+			cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_class_id")
 	private UserClass userClass;
 
 	@ManyToMany(
-			targetEntity = GroupItemBasket.class,
-			fetch = FetchType.EAGER	)
+			targetEntity = GroupItemBasket.class)
+//			fetch = FetchType.EAGER	)
 	@JoinTable(
 			name = "join_user_groupitembasket",
 			joinColumns = {@JoinColumn(name = "user_id")},
@@ -91,8 +93,8 @@ public class User {
 	private List<GroupItemBasket> groupItemBaskets;
 
 	@ManyToMany(
-			targetEntity = GroupQuestBasket.class,
-			fetch = FetchType.EAGER	)
+			targetEntity = GroupQuestBasket.class)
+//			fetch = FetchType.EAGER	)
 	@JoinTable(
 			name = "join_user_groupquestbasket",
 			joinColumns = {@JoinColumn(name = "user_id")},
@@ -100,8 +102,8 @@ public class User {
 	private List<GroupQuestBasket> groupQuestBaskets;
 
 	@ManyToMany(
-			targetEntity = ItemCard.class,
-			fetch = FetchType.EAGER	)
+			targetEntity = ItemCard.class)
+//			fetch = FetchType.EAGER	)
 	@JoinTable(
 			name = "join_user_itemcard",
 			joinColumns = {@JoinColumn(name = "user_id")},
@@ -109,8 +111,8 @@ public class User {
 	private List<ItemCard> itemCards;
 
 	@ManyToMany(
-			targetEntity = QuestCard.class,
-			fetch = FetchType.EAGER	)
+			targetEntity = QuestCard.class)
+//			fetch = FetchType.EAGER	)
 	@JoinTable(
 			name = "join_user_questcard",
 			joinColumns = {@JoinColumn(name = "user_id")},

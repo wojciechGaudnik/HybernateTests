@@ -18,6 +18,7 @@ import javax.validation.ConstraintViolationException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+//@Test(priority = 9)
 public class ValidationTests {
 
 	private static Session session;

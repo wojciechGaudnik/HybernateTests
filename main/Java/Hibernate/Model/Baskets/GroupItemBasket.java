@@ -1,7 +1,6 @@
 package Hibernate.Model.Baskets;
 
 import Hibernate.Model.Cards.QuestCard;
-import Hibernate.Model.Common.UserClass;
 import Hibernate.Model.Persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;

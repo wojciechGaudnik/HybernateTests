@@ -14,7 +14,6 @@ import Hibernate.Model.Persons.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
 import java.util.Properties;
 
 
@@ -47,11 +46,15 @@ import java.util.Properties;
 //@Temporal(TemporalType.TIMESTAMP)
 
 public class HibernateMain {
+
+	private static SessionFactory sessionFactory;
+	private static Session session;
+
 	public static void main(String[] args) {
 
 //		Properties properties = new Properties();
 //		properties.put("hibernate.hbm2ddl.auto", "update");
-		SessionFactory sessionFactory = new Configuration()
+		sessionFactory = new Configuration()
 				.addPackage("Hibernate")
 				.addAnnotatedClass(User.class)
 				.addAnnotatedClass(Creepy.class)
@@ -66,15 +69,38 @@ public class HibernateMain {
 				.addAnnotatedClass(ItemCard.class)
 //				.addProperties(properties)
 				.buildSessionFactory();
-		Session session = sessionFactory.openSession();
+		session = sessionFactory.openSession();
 		session.beginTransaction();
 
+
 		System.out.println("Init -------------------------------------------------------------------------------------");
+		InitEntities.questCategory(session);
+		session = closeOpenSession(sessionFactory, session);
+		InitEntities.questCard(session);
+		session = closeOpenSession(sessionFactory, session);
 
 		System.out.println("First -------------------------------------------------------------------------------------");
+		QuestCategory questCategory2 = session.get(QuestCategory.class, 2L);
+		QuestCard questCard1 = session.get(QuestCard.class, 1L);
+
+		questCard1.setQuestCategory(questCategory2);
+
+//		session.save(questCard1);
+//		session.update(questCategory2);
+
+		session = closeOpenSession(sessionFactory, session);
+//		getCommitBegin();
+
+		QuestCategory questCategory2Alertest = session.get(QuestCategory.class, 2L);
+
+
+		questCategory2Alertest.getQuestCard().forEach(c -> System.out.println(c.getName()));
+
+
+
 
 		System.out.println("Second -------------------------------------------------------------------------------------");
-
+//		questCategory2.getQuestCard().forEach(c -> System.out.println(c.getName()));
 		System.out.println("Stop -------------------------------------------------------------------------------------");
 
 
@@ -98,5 +124,37 @@ public class HibernateMain {
 		return session;
 	}
 
+	private static void cleanDB() {
+		Properties properties = new Properties();
+		properties.put("hibernate.hbm2ddl.auto", "create-drop");
+		sessionFactory = new Configuration()
+				.addPackage("Hibernate")
+				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(Creepy.class)
+				.addAnnotatedClass(Mentor.class)
+				.addAnnotatedClass(UserClass.class)
+				.addAnnotatedClass(UserLevel.class)
+				.addAnnotatedClass(ItemCategory.class)
+				.addAnnotatedClass(QuestCategory.class)
+				.addAnnotatedClass(GroupItemBasket.class)
+				.addAnnotatedClass(GroupQuestBasket.class)
+				.addAnnotatedClass(QuestCard.class)
+				.addAnnotatedClass(ItemCard.class)
+				.addProperties(properties)
+				.buildSessionFactory();
+		session = sessionFactory.openSession();
+		session.beginTransaction();
 
+		session.getTransaction().commit();
+		session.close();
+		sessionFactory.close();
+	}
+	private static void rollBackAndBegin(){
+		session.getTransaction().rollback();
+		session.beginTransaction();
+	}
+	private static void getCommitBegin (){
+		session.getTransaction().commit();
+		session.beginTransaction();
+	}
 }

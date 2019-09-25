@@ -49,8 +49,8 @@ public class UserLevel implements Serializable {  //todo remove if not necessary
 
 	@OneToMany(
 			mappedBy = "userLevel",
-			targetEntity = User.class,
-			cascade = CascadeType.PERSIST,
-			fetch = FetchType.EAGER)
-	private List<User> usersList = new ArrayList<>();
+//			targetEntity = User.class,
+			cascade = CascadeType.ALL)
+//			fetch = FetchType.LAZY)
+	private List<User> usersList;
 }

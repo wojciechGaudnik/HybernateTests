@@ -1,3 +1,5 @@
+package Hibernate;
+
 import Hibernate.Model.Baskets.GroupItemBasket;
 import Hibernate.Model.Baskets.GroupQuestBasket;
 import Hibernate.Model.Cards.ItemCard;

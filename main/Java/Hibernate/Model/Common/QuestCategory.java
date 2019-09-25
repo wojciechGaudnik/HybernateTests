@@ -7,7 +7,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Audited
@@ -29,8 +29,6 @@ public class QuestCategory {
 
 	@OneToMany(
 			mappedBy = "questCategory",
-			targetEntity = QuestCard.class,
-			cascade = CascadeType.PERSIST,
-			fetch = FetchType.EAGER)
-	private List<QuestCard> questCard = new ArrayList<>();
+			targetEntity = QuestCard.class)
+	private List<QuestCard> questCard;
 }
