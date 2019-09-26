@@ -1,6 +1,6 @@
-package QSERDHibernate.Model.Common;
+package QSERDHibernate.model.common;
 
-import QSERDHibernate.Model.Cards.QuestCard;
+import QSERDHibernate.model.cards.QuestCard;
 import lombok.*;
 import org.hibernate.envers.Audited;
 

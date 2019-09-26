@@ -1,16 +1,16 @@
 package QSERDHibernate;
 
-import QSERDHibernate.Model.Baskets.GroupItemBasket;
-import QSERDHibernate.Model.Baskets.GroupQuestBasket;
-import QSERDHibernate.Model.Cards.ItemCard;
-import QSERDHibernate.Model.Cards.QuestCard;
-import QSERDHibernate.Model.Common.ItemCategory;
-import QSERDHibernate.Model.Common.QuestCategory;
-import QSERDHibernate.Model.Common.UserClass;
-import QSERDHibernate.Model.Common.UserLevel;
-import QSERDHibernate.Model.Persons.Creepy;
-import QSERDHibernate.Model.Persons.Mentor;
-import QSERDHibernate.Model.Persons.User;
+import QSERDHibernate.model.baskets.GroupItemBasket;
+import QSERDHibernate.model.baskets.GroupQuestBasket;
+import QSERDHibernate.model.cards.ItemCard;
+import QSERDHibernate.model.cards.QuestCard;
+import QSERDHibernate.model.common.ItemCategory;
+import QSERDHibernate.model.common.QuestCategory;
+import QSERDHibernate.model.common.UserClass;
+import QSERDHibernate.model.common.UserLevel;
+import QSERDHibernate.model.persons.Creepy;
+import QSERDHibernate.model.persons.Mentor;
+import QSERDHibernate.model.persons.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

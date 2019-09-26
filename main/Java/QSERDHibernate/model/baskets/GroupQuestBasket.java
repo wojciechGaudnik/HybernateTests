@@ -1,7 +1,7 @@
-package QSERDHibernate.Model.Baskets;
+package QSERDHibernate.model.baskets;
 
-import QSERDHibernate.Model.Cards.ItemCard;
-import QSERDHibernate.Model.Persons.User;
+import QSERDHibernate.model.cards.QuestCard;
+import QSERDHibernate.model.persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Range;
@@ -16,8 +16,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder(toBuilder = true)
 @Audited
-@Entity(name = "group_item_baskets")
-public class GroupItemBasket {
+@Entity(name = "group_quest_baskets")
+public class GroupQuestBasket {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,15 +40,15 @@ public class GroupItemBasket {
 	private User owner;
 
 	@ManyToOne(
-			targetEntity = ItemCard.class)
-	@JoinColumn(name = "item_card_id")
-	private ItemCard itemCard;
+			targetEntity = QuestCard.class)
+	@JoinColumn(name = "quest_card_id")
+	private QuestCard questCard;
 
 	@ManyToMany(
 			targetEntity = User.class)
 	@JoinTable(
-			name = "join_user_groupitembasket",
-			joinColumns = {@JoinColumn(name = "group_item_basket_id")},
+			name = "join_user_groupquestbasket",
+			joinColumns = {@JoinColumn(name = "group_quest_basket_id")},
 			inverseJoinColumns = {@JoinColumn(name = "user_id")})
 	private List<User> users;
 }

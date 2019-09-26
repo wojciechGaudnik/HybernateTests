@@ -1,8 +1,8 @@
-package QSERDHibernate.Model.Common;
+package QSERDHibernate.model.common;
 
-import QSERDHibernate.Model.Cards.ItemCard;
-import QSERDHibernate.Model.Cards.QuestCard;
-import QSERDHibernate.Model.Persons.User;
+import QSERDHibernate.model.cards.ItemCard;
+import QSERDHibernate.model.cards.QuestCard;
+import QSERDHibernate.model.persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Range;

@@ -1,11 +1,11 @@
-package QSERDHibernate.Model.Persons;
+package QSERDHibernate.model.persons;
 
-import QSERDHibernate.Model.Baskets.GroupItemBasket;
-import QSERDHibernate.Model.Baskets.GroupQuestBasket;
-import QSERDHibernate.Model.Cards.ItemCard;
-import QSERDHibernate.Model.Cards.QuestCard;
-import QSERDHibernate.Model.Common.UserClass;
-import QSERDHibernate.Model.Common.UserLevel;
+import QSERDHibernate.model.baskets.GroupItemBasket;
+import QSERDHibernate.model.baskets.GroupQuestBasket;
+import QSERDHibernate.model.cards.ItemCard;
+import QSERDHibernate.model.cards.QuestCard;
+import QSERDHibernate.model.common.UserClass;
+import QSERDHibernate.model.common.UserLevel;
 
 import lombok.*;
 import javax.persistence.*;

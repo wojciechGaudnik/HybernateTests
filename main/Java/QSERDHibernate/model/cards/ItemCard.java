@@ -1,9 +1,9 @@
-package QSERDHibernate.Model.Cards;
+package QSERDHibernate.model.cards;
 
-import QSERDHibernate.Model.Baskets.GroupItemBasket;
-import QSERDHibernate.Model.Common.ItemCategory;
-import QSERDHibernate.Model.Common.UserLevel;
-import QSERDHibernate.Model.Persons.User;
+import QSERDHibernate.model.baskets.GroupItemBasket;
+import QSERDHibernate.model.common.ItemCategory;
+import QSERDHibernate.model.common.UserLevel;
+import QSERDHibernate.model.persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Range;

@@ -1,7 +1,7 @@
-package QSERDHibernate.Model.Common;
+package QSERDHibernate.model.common;
 
-import QSERDHibernate.Model.Persons.Mentor;
-import QSERDHibernate.Model.Persons.User;
+import QSERDHibernate.model.persons.Mentor;
+import QSERDHibernate.model.persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;
 
