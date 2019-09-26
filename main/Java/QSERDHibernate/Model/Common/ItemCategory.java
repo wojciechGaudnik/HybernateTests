@@ -1,21 +1,20 @@
-package Hibernate.Model.Common;
+package QSERDHibernate.Model.Common;
 
-import Hibernate.Model.Cards.ItemCard;
+import QSERDHibernate.Model.Cards.ItemCard;
 import lombok.*;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 
-@Audited
 @Getter
 @Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder(toBuilder = true)
+@Audited
 @Entity(name = "item_categories")
 public class ItemCategory {
 
@@ -30,8 +29,6 @@ public class ItemCategory {
 
 	@OneToMany(
 			mappedBy = "itemCategory",
-			targetEntity = ItemCard.class,
-			cascade = CascadeType.PERSIST,
-			fetch = FetchType.EAGER)
-	private List<ItemCard> itemCards = new ArrayList<>();
+			targetEntity = ItemCard.class)
+	private List<ItemCard> itemCards;
 }

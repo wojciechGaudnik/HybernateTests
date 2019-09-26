@@ -1,16 +1,16 @@
-package Hibernate;
+package QSERDHibernate;
 
-import Hibernate.Model.Baskets.GroupItemBasket;
-import Hibernate.Model.Baskets.GroupQuestBasket;
-import Hibernate.Model.Cards.ItemCard;
-import Hibernate.Model.Cards.QuestCard;
-import Hibernate.Model.Common.ItemCategory;
-import Hibernate.Model.Common.QuestCategory;
-import Hibernate.Model.Common.UserClass;
-import Hibernate.Model.Common.UserLevel;
-import Hibernate.Model.Persons.Creepy;
-import Hibernate.Model.Persons.Mentor;
-import Hibernate.Model.Persons.User;
+import QSERDHibernate.Model.Baskets.GroupItemBasket;
+import QSERDHibernate.Model.Baskets.GroupQuestBasket;
+import QSERDHibernate.Model.Cards.ItemCard;
+import QSERDHibernate.Model.Cards.QuestCard;
+import QSERDHibernate.Model.Common.ItemCategory;
+import QSERDHibernate.Model.Common.QuestCategory;
+import QSERDHibernate.Model.Common.UserClass;
+import QSERDHibernate.Model.Common.UserLevel;
+import QSERDHibernate.Model.Persons.Creepy;
+import QSERDHibernate.Model.Persons.Mentor;
+import QSERDHibernate.Model.Persons.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -23,7 +23,7 @@ import java.util.Properties;
 //		sessionFactory.setHibernateProperties(hibernateProperties);
 //todo @ToString @ equals and hascode
 //todo ASK MENTOR how make interface with hibernate users,mentors,creepy https://www.baeldung.com/hibernate-inheritance
-//todo change EAGER into Hibernate.initialize(object proxy);
+//todo change EAGER into QSERDHibernate.initialize(object proxy);
 //todo serializable ?? why here ?
 //todo	@Retention(RUNTIME)   //todo <--- check if help with catch errors !!!
 //todo correct all validation to Column(bleble) for One Exception

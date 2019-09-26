@@ -1,7 +1,7 @@
-package Hibernate.Model.Baskets;
+package QSERDHibernate.Model.Baskets;
 
-import Hibernate.Model.Cards.QuestCard;
-import Hibernate.Model.Persons.User;
+import QSERDHibernate.Model.Cards.QuestCard;
+import QSERDHibernate.Model.Persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Range;
@@ -10,12 +10,12 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.List;
 
-@Audited
 @Getter
 @Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder(toBuilder = true)
+@Audited
 @Entity(name = "group_quest_baskets")
 public class GroupQuestBasket {
 
@@ -35,23 +35,20 @@ public class GroupQuestBasket {
 
 	@NotNull(message = "owner is mandatory")
 	@ManyToOne(
-			targetEntity = User.class,
-			fetch = FetchType.EAGER	)
+			targetEntity = User.class)
 	@JoinColumn(name = "owner_id")
 	private User owner;
 
 	@ManyToOne(
-			targetEntity = QuestCard.class,
-			fetch = FetchType.EAGER	)
+			targetEntity = QuestCard.class)
 	@JoinColumn(name = "quest_card_id")
 	private QuestCard questCard;
 
 	@ManyToMany(
-			targetEntity = User.class,
-			fetch = FetchType.EAGER	)
+			targetEntity = User.class)
 	@JoinTable(
 			name = "join_user_groupquestbasket",
 			joinColumns = {@JoinColumn(name = "group_quest_basket_id")},
-			inverseJoinColumns = {@JoinColumn(name = "user_id")}	)
+			inverseJoinColumns = {@JoinColumn(name = "user_id")})
 	private List<User> users;
 }

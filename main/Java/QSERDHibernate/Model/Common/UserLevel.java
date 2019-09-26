@@ -1,8 +1,8 @@
-package Hibernate.Model.Common;
+package QSERDHibernate.Model.Common;
 
-import Hibernate.Model.Cards.ItemCard;
-import Hibernate.Model.Cards.QuestCard;
-import Hibernate.Model.Persons.User;
+import QSERDHibernate.Model.Cards.ItemCard;
+import QSERDHibernate.Model.Cards.QuestCard;
+import QSERDHibernate.Model.Persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Range;
@@ -10,18 +10,16 @@ import org.hibernate.validator.constraints.Range;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-@Audited
 @Getter
 @Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder(toBuilder = true)
+@Audited
 @Entity(name = "user_levels")
-public class UserLevel implements Serializable {  //todo remove if not necessary
+public class UserLevel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,21 +34,17 @@ public class UserLevel implements Serializable {  //todo remove if not necessary
 	private int value;
 
 	@OneToMany(
-			mappedBy = "userLevel",  //todo check in both directions !!!!
-			targetEntity = ItemCard.class,
-			cascade = CascadeType.PERSIST	)
+			mappedBy = "userLevel",
+			targetEntity = ItemCard.class)
 	private List<ItemCard> itemCardList;
 
 	@OneToMany(
 			mappedBy = "userLevel",
 			targetEntity = QuestCard.class)
-//			cascade = CascadeType.PERSIST)
 	private List<QuestCard> questCardList;
 
 	@OneToMany(
 			mappedBy = "userLevel",
-//			targetEntity = User.class,
-			cascade = CascadeType.ALL)
-//			fetch = FetchType.LAZY)
+			targetEntity = User.class)
 	private List<User> usersList;
 }

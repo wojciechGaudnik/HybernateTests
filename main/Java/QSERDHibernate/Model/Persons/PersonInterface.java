@@ -1,4 +1,4 @@
-//package Hibernate.Model.Persons;
+//package QSERDHibernate.Model.Persons;
 //
 //import javax.persistence.*;
 //import org.hibernate.envers.Audited;

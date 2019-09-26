@@ -1,24 +1,21 @@
-package Hibernate.Model.Persons;
+package QSERDHibernate.Model.Persons;
 
-import Hibernate.Model.Common.UserClass;
 import lombok.*;
 import javax.persistence.*;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Email;
-import java.util.List;
 
-@Audited
 @Getter
 @Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder(toBuilder = true)
-@Entity(name = "mentors")
-public class Mentor {
+@Audited
+@Entity(name = "creepy")
+public class Creepy{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,17 +46,4 @@ public class Mentor {
 	@Column(unique = true)
 	@Size(min = 3, max = 100, message = "length out of range ")
 	private String photoUrl;
-
-	@UniqueElements //todo don't work can make one mentor with two classes1
-	@ManyToMany(
-//			mappedBy = "mentors",
-			targetEntity = UserClass.class)
-//			fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "join_userclasses_mentors",
-			joinColumns = {@JoinColumn(name = "mentor_id")},
-			inverseJoinColumns = {@JoinColumn(name = "user_class_id")})
-	private List<UserClass> userClasses;
 }
-
-

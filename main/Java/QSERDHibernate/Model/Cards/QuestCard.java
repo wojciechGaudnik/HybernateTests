@@ -1,9 +1,9 @@
-package Hibernate.Model.Cards;
+package QSERDHibernate.Model.Cards;
 
-import Hibernate.Model.Baskets.GroupQuestBasket;
-import Hibernate.Model.Common.QuestCategory;
-import Hibernate.Model.Common.UserLevel;
-import Hibernate.Model.Persons.User;
+import QSERDHibernate.Model.Baskets.GroupQuestBasket;
+import QSERDHibernate.Model.Common.QuestCategory;
+import QSERDHibernate.Model.Common.UserLevel;
+import QSERDHibernate.Model.Persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Range;
@@ -15,14 +15,14 @@ import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.UUID;
 
-@Audited
 @Getter
 @Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder(toBuilder = true)
+@Audited
 @Entity(name = "quest_cards")
-public class QuestCard {
+public class QuestCard { //todo implement Serializable  ???
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,24 +56,22 @@ public class QuestCard {
 	private UserLevel userLevel;
 
 
-	@NotNull(message = "questCategory is mandatory") //todo <--- 100% OK !!!
-	@ManyToOne(
+	@NotNull(message = "questCategory is mandatory")
+	@ManyToOne(                                         //todo <--- 100% OK !!!
 			targetEntity = QuestCategory.class)
 	@JoinColumn(name = "quest_category_id")
 	private QuestCategory questCategory;
 
 	@OneToMany(
 			mappedBy = "questCard",
-			targetEntity = GroupQuestBasket.class,
-			cascade = CascadeType.PERSIST)
-//todo			fetch = FetchType.EAGER
+			targetEntity = GroupQuestBasket.class)
 	private List<GroupQuestBasket> groupQuestBasket;
 
 	@ManyToMany(
-			targetEntity = User.class	)
+			targetEntity = User.class)
 	@JoinTable(
 			name = "join_user_questcard",
 			joinColumns = {@JoinColumn(name = "quest_card_id")},
-			inverseJoinColumns = {@JoinColumn(name = "user_id")}	)
+			inverseJoinColumns = {@JoinColumn(name = "user_id")})
 	private List<User> usersList;
 }

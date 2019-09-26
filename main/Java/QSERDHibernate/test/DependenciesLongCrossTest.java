@@ -1,14 +1,14 @@
-import Hibernate.Model.Baskets.GroupItemBasket;
-import Hibernate.Model.Baskets.GroupQuestBasket;
-import Hibernate.Model.Cards.ItemCard;
-import Hibernate.Model.Cards.QuestCard;
-import Hibernate.Model.Common.ItemCategory;
-import Hibernate.Model.Common.QuestCategory;
-import Hibernate.Model.Common.UserClass;
-import Hibernate.Model.Common.UserLevel;
-import Hibernate.Model.Persons.Creepy;
-import Hibernate.Model.Persons.Mentor;
-import Hibernate.Model.Persons.User;
+import QSERDHibernate.Model.Baskets.GroupItemBasket;
+import QSERDHibernate.Model.Baskets.GroupQuestBasket;
+import QSERDHibernate.Model.Cards.ItemCard;
+import QSERDHibernate.Model.Cards.QuestCard;
+import QSERDHibernate.Model.Common.ItemCategory;
+import QSERDHibernate.Model.Common.QuestCategory;
+import QSERDHibernate.Model.Common.UserClass;
+import QSERDHibernate.Model.Common.UserLevel;
+import QSERDHibernate.Model.Persons.Creepy;
+import QSERDHibernate.Model.Persons.Mentor;
+import QSERDHibernate.Model.Persons.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -94,7 +94,7 @@ public class DependenciesLongCrossTest {
 		assertEquals("Long Shot to itemCategory",
 				mentor1
 						.getUserClasses().get(0)
-						.getUsers().get(0)
+						.getUserList().get(0)
 						.getUserLevel()
 						.getItemCardList().get(0)
 						.getItemCategory()
@@ -135,7 +135,7 @@ public class DependenciesLongCrossTest {
 		assertEquals("Long Shot to questCategory",
 				mentor1
 						.getUserClasses().get(0)
-						.getUsers().get(0)
+						.getUserList().get(0)
 						.getGroupQuestBasketsOwned().get(0)
 						.getQuestCard()
 						.getQuestCategory()

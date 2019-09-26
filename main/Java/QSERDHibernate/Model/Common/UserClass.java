@@ -1,22 +1,21 @@
-package Hibernate.Model.Common;
+package QSERDHibernate.Model.Common;
 
-import Hibernate.Model.Persons.Mentor;
-import Hibernate.Model.Persons.User;
+import QSERDHibernate.Model.Persons.Mentor;
+import QSERDHibernate.Model.Persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 
-@Audited
 @Getter
 @Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder(toBuilder = true)
+@Audited
 @Entity(name = "user_classes")
 public class UserClass {
 
@@ -42,9 +41,8 @@ public class UserClass {
 			inverseJoinColumns = {@JoinColumn(name = "mentor_id")}	)
 	private List<Mentor> mentors;
 
-	@OneToMany(targetEntity = User.class,
+	@OneToMany(
 			mappedBy = "userClass",
-			cascade = CascadeType.PERSIST,
-			fetch = FetchType.EAGER)
-	private List<User> users;
+			targetEntity = User.class)
+	private List<User> userList;
 }

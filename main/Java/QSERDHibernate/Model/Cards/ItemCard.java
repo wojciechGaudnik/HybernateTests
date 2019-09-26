@@ -1,9 +1,9 @@
-package Hibernate.Model.Cards;
+package QSERDHibernate.Model.Cards;
 
-import Hibernate.Model.Baskets.GroupItemBasket;
-import Hibernate.Model.Common.ItemCategory;
-import Hibernate.Model.Common.UserLevel;
-import Hibernate.Model.Persons.User;
+import QSERDHibernate.Model.Baskets.GroupItemBasket;
+import QSERDHibernate.Model.Common.ItemCategory;
+import QSERDHibernate.Model.Common.UserLevel;
+import QSERDHibernate.Model.Persons.User;
 import lombok.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Range;
@@ -12,18 +12,17 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Audited
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder(toBuilder = true)
+@Audited
 @Entity(name = "item_cards")
-public class ItemCard {
+public class ItemCard {//todo implement Serializable  ???
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,20 +50,21 @@ public class ItemCard {
 
 	private boolean allowedGroupBuy;
 
-	@ManyToOne()
+	@ManyToOne(
+			targetEntity = UserLevel.class)
 	@JoinColumn(name = "user_level_id")
 	private UserLevel userLevel;
 
 	@NotNull(message = "description is mandatory")
-	@ManyToOne(targetEntity = ItemCategory.class)
+	@ManyToOne(
+			targetEntity = ItemCategory.class)
 	@JoinColumn(name = "item_category_id")
 	private ItemCategory itemCategory;
 
 	@OneToMany(
 			mappedBy = "itemCard",
-			targetEntity = GroupItemBasket.class,
-			cascade = CascadeType.PERSIST)
-	private List<GroupItemBasket>  groupItemBaskets = new ArrayList<>();
+			targetEntity = GroupItemBasket.class)
+	private List<GroupItemBasket>  groupItemBaskets;
 
 	@ManyToMany(
 			targetEntity = User.class)
@@ -72,5 +72,5 @@ public class ItemCard {
 			name = "join_user_itemcard",
 			joinColumns = {@JoinColumn(name = "item_card_id")},
 			inverseJoinColumns = {@JoinColumn(name = "user_id")})
-	private List<User> usersList = new ArrayList<>();
+	private List<User> usersList;
 }

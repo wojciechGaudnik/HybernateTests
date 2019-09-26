@@ -1,6 +1,6 @@
-package Hibernate.Model.Common;
+package QSERDHibernate.Model.Common;
 
-import Hibernate.Model.Cards.QuestCard;
+import QSERDHibernate.Model.Cards.QuestCard;
 import lombok.*;
 import org.hibernate.envers.Audited;
 
@@ -10,11 +10,12 @@ import javax.validation.constraints.Size;
 
 import java.util.List;
 
-@Audited
-@Data
+@Getter
+@Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder(toBuilder = true)
+@Audited
 @Entity(name = "quest_categories")
 public class QuestCategory {
 
@@ -27,7 +28,7 @@ public class QuestCategory {
 	@Size(min = 3, max = 100, message = "length out of range min = 3, max = 100 <--- check !!!")
 	private String name;
 
-	@OneToMany(
+	@OneToMany(                             //todo <--- 100% OK !!!
 			mappedBy = "questCategory",
 			targetEntity = QuestCard.class)
 	private List<QuestCard> questCard;
