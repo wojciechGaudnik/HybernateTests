@@ -35,7 +35,7 @@ public class UserClass {
 	private String photoUrl;
 
 	@ManyToMany(
-			targetEntity= Mentor.class	)
+			targetEntity= Mentor.class)
 	@JoinTable(
 			name = "join_userclasses_mentors",
 			joinColumns = {@JoinColumn(name = "user_class_id")},
@@ -46,5 +46,5 @@ public class UserClass {
 			mappedBy = "userClass",
 			cascade = CascadeType.PERSIST,
 			fetch = FetchType.EAGER)
-	private List<User> users = new ArrayList<>();
+	private List<User> users;
 }

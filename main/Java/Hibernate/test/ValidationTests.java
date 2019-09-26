@@ -18,7 +18,6 @@ import javax.validation.ConstraintViolationException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-//@Test(priority = 9)
 public class ValidationTests {
 
 	private static Session session;
@@ -61,8 +60,6 @@ public class ValidationTests {
 		session.close();
 		sessionFactory.close();
 	}
-
-
 
 	@Test(groups = "Independent")
 	public void creepy() {
@@ -360,17 +357,8 @@ public class ValidationTests {
 		});
 	}
 
-
-
-
-
-
-
-
 	private static void rollBackAndBegin(){
 		session.getTransaction().rollback();
 		session.beginTransaction();
 	}
-
-
 }

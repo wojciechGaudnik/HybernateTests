@@ -1,0 +1,29 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="All Tests" verbose="3" preserve-order="true">
+    <test name="InitTests" preserve-order="true" >
+        <classes>
+            <class name="InitTests" />
+        </classes>
+    </test>
+    <test name="ValidationTests" preserve-order="true" >
+        <classes>
+            <class name="ValidationTests"/>
+        </classes>
+    </test>
+    <test name="Dependencies" preserve-order="true" >
+        <classes>
+            <class name="DependenciesTests"/>
+        </classes>
+    </test>
+    <test name="DependenciesLong" preserve-order="true" >
+        <classes>
+            <class name="DependenciesLongTests"/>
+        </classes>
+    </test>
+    <test name="DependenciesLongCross" preserve-order="true" >
+        <classes>
+            <class name="DependenciesLongCrossTest"/>
+        </classes>
+    </test>
+</suite>

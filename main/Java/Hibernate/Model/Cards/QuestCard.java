@@ -50,11 +50,13 @@ public class QuestCard {
 
 	private boolean allowedGroupBuy;
 
-	@ManyToOne()
+	@ManyToOne(
+			targetEntity = UserLevel.class)
 	@JoinColumn(name = "user_level_id")
 	private UserLevel userLevel;
 
-	@NotNull(message = "questCategory is mandatory")
+
+	@NotNull(message = "questCategory is mandatory") //todo <--- 100% OK !!!
 	@ManyToOne(
 			targetEntity = QuestCategory.class)
 	@JoinColumn(name = "quest_category_id")

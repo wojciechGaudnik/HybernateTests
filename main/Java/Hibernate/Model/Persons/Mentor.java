@@ -50,14 +50,15 @@ public class Mentor {
 	@Size(min = 3, max = 100, message = "length out of range ")
 	private String photoUrl;
 
-	@UniqueElements
+	@UniqueElements //todo don't work can make one mentor with two classes1
 	@ManyToMany(
-			targetEntity = UserClass.class,
-			fetch = FetchType.EAGER)
+//			mappedBy = "mentors",
+			targetEntity = UserClass.class)
+//			fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "join_userclasses_mentors",
 			joinColumns = {@JoinColumn(name = "mentor_id")},
-			inverseJoinColumns = {@JoinColumn(name = "user_class_id")}	)
+			inverseJoinColumns = {@JoinColumn(name = "user_class_id")})
 	private List<UserClass> userClasses;
 }
 

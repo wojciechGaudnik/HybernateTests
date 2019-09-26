@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 import javax.validation.constraints.Email;
 
 @Audited
+@EqualsAndHashCode
 @Getter
 @Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)

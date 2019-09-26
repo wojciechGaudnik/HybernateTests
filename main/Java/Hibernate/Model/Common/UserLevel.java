@@ -39,13 +39,13 @@ public class UserLevel implements Serializable {  //todo remove if not necessary
 			mappedBy = "userLevel",  //todo check in both directions !!!!
 			targetEntity = ItemCard.class,
 			cascade = CascadeType.PERSIST	)
-	private List<ItemCard> itemCardList = new ArrayList<>();
+	private List<ItemCard> itemCardList;
 
 	@OneToMany(
 			mappedBy = "userLevel",
-			targetEntity = QuestCard.class,
-			cascade = CascadeType.PERSIST)
-	private List<QuestCard> questCardList = new ArrayList<>();
+			targetEntity = QuestCard.class)
+//			cascade = CascadeType.PERSIST)
+	private List<QuestCard> questCardList;
 
 	@OneToMany(
 			mappedBy = "userLevel",

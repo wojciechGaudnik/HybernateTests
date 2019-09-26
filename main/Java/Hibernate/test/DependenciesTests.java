@@ -21,15 +21,15 @@ import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Dependencies {
+public class DependenciesTests {
 
 	private static Session session;
 	private static SessionFactory sessionFactory;
 
 	@BeforeMethod
 	private static void beforeMethod(){
-//		Properties properties = new Properties();
-//		properties.put("hibernate.hbm2ddl.auto", "create-drop");
+		Properties properties = new Properties();
+		properties.put("hibernate.hbm2ddl.auto", "create-drop");
 		sessionFactory = new Configuration()
 				.addPackage("Hibernate")
 				.addAnnotatedClass(User.class)
@@ -43,7 +43,7 @@ public class Dependencies {
 				.addAnnotatedClass(GroupQuestBasket.class)
 				.addAnnotatedClass(QuestCard.class)
 				.addAnnotatedClass(ItemCard.class)
-//				.addProperties(properties)
+				.addProperties(properties)
 				.buildSessionFactory();
 		session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -53,8 +53,6 @@ public class Dependencies {
 	private static void afterMethod(){
 		session.close();
 		sessionFactory.close();
-
-//		cleanDB();
 	}
 
 	@Test
@@ -191,7 +189,7 @@ public class Dependencies {
 		assertEquals("New Name", questCard1.getName());
 	}
 
-//	@Test
+	@Test
 	public static void checkHistory(){
 		InitEntities.questCategory(session);
 		session = closeAfterExceptionAndBegin(sessionFactory, session);
@@ -212,119 +210,102 @@ public class Dependencies {
 		questCategory1 = session.get(QuestCategory.class, 1L);
 		questCategory1.setName("New Name3");
 		commitAndBegin();
-		questCategory1 = session.get(QuestCategory.class, 1L);
-		session.delete(questCategory1);
-		commitAndBegin();
-
-
 
 		System.out.println("test ---");
 		AuditReader auditReader = AuditReaderFactory.get(session);
 
-		QuestCard questCardHistory1 = auditReader.find(QuestCard.class, 1L, 2);
-		System.out.println(questCardHistory1.getQuestCategory().getName() + " <--asdf----------");
+		QuestCard questCard1Aud = auditReader.find(QuestCard.class, 1L, 2);
+		QuestCard questCard2Aud = auditReader.find(QuestCard.class, 1L, 4);
 
-		QuestCategory historyAfterDelete = auditReader.find(QuestCategory.class, questCardHistory1.getQuestCategory(), 2);
-		System.out.println(historyAfterDelete.getName() + "<-,-,-,-,-,");
-
-
-
-		QuestCategory questCategoryHistory1 = auditReader.find(QuestCategory.class, 1L, 1);
-		QuestCategory questCategoryHistory2 = auditReader.find(QuestCategory.class, 1L, 2);
-		QuestCategory questCategoryHistory3 = auditReader.find(QuestCategory.class, 1L, 3);
-		QuestCategory questCategoryHistory4 = auditReader.find(QuestCategory.class, 1L, 4);
-		QuestCategory questCategoryHistory5 = auditReader.find(QuestCategory.class, 1L, 5);
-		QuestCategory questCategoryHistory6 = auditReader.find(QuestCategory.class, 1L, 6);
-		QuestCategory questCategoryHistory7 = auditReader.find(QuestCategory.class, 1L, 7);
-		QuestCategory questCategoryHistory8 = auditReader.find(QuestCategory.class, 1L, 8);
-		QuestCategory questCategoryHistory9 = auditReader.find(QuestCategory.class, 1L, 9);
-		QuestCategory questCategoryHistory10 = auditReader.find(QuestCategory.class, 1L, 10);
-		QuestCategory questCategoryHistory11 = auditReader.find(QuestCategory.class, 1L, 11);
-		System.out.println(questCategoryHistory1.toString() + " <---------");
-		System.out.println(questCategoryHistory2.toString() + " <---------");
-		System.out.println(questCategoryHistory3.toString() + " <---------");
-		System.out.println(questCategoryHistory4.toString() + " <---------");
-		System.out.println(questCategoryHistory5.toString() + " <---------");
-		System.out.println(questCategoryHistory6.toString() + " <---------");
-		System.out.println(questCategoryHistory7.toString() + " <---------");
-		System.out.println(questCategoryHistory8.toString() + " <---------");
-		System.out.println(questCategoryHistory9.toString() + " <---------");
-		System.out.println(questCategoryHistory10.toString() + " <---------");
-		System.out.println(questCategoryHistory11.toString() + " <---------");
+		assertEquals("Quest Category First", questCard1Aud.getQuestCategory().getName());
+		assertEquals("Quest Category Second", questCard2Aud.getQuestCategory().getName());
 	}
 
-//	@Test(dependsOnGroups = "Init")
-	public static void ifDependencyManyToManyDelete(){
-		System.out.println("test ----------------------------------------------------------------------------------------------------------------------------------------------------------------");
+	@Test
+	public static void loadAllAndManyToOneAndTestSimpleAndLong(){
+		assertDoesNotThrow(DependenciesTests::loadAllDB);
+		QuestCard questCard1 = session.get(QuestCard.class, 1L);
+		UserLevel userLevel2 = session.get(UserLevel.class, 2L);
+		QuestCard finalQuestCard = questCard1;
+		assertThrows(NullPointerException.class, () -> {
+			finalQuestCard.getUserLevel().getName();
+		});
+		closeAfterExceptionAndBegin();
+
+		questCard1.setUserLevel(userLevel2);
+		session.update(questCard1);
+		commitAndBegin();
+
+		questCard1 = session.get(QuestCard.class, 1L);
+		userLevel2 = session.get(UserLevel.class, 2L);
+		assertEquals("User Level Second", questCard1.getUserLevel().getName());
+		assertEquals("Quest Card First", userLevel2.getQuestCardList().get(0).getName());
+
+		QuestCategory questCategory1 = session.get(QuestCategory.class, 1L);
+		assertEquals("User Level Second", questCategory1.getQuestCard().get(0).getUserLevel().getName());
 	}
 
-//	@Test(dependsOnGroups = "Init")
-	public static void ifDependencyManyToManyUpdate(){
-		System.out.println("test ----------------------------------------------------------------------------------------------------------------------------------------------------------------");
+	@Test
+	public static void loadAllAndManyToOneAndTestLong() {
+		assertDoesNotThrow(DependenciesTests::loadAllDB);
+		QuestCard questCard1 = session.get(QuestCard.class, 1L);
+		UserLevel userLevel2 = session.get(UserLevel.class, 2L);
+		QuestCard finalQuestCard = questCard1;
+		assertThrows(NullPointerException.class, () -> {
+			finalQuestCard.getUserLevel().getName();
+		});
+		closeAfterExceptionAndBegin();
+
+		questCard1.setUserLevel(userLevel2);
+		session.update(questCard1);
+		commitAndBegin();
+
+		UserLevel userLevel1 = session.get(UserLevel.class, 1L);
+
+		UserLevel finalUserLevel = userLevel1;
+		assertThrows(javax.persistence.PersistenceException.class, () -> { //todo <--- DeleteUserLevel1ExceptionIsOK
+			session.delete(finalUserLevel);
+			commitAndBegin();
+		});
+		closeAfterExceptionAndBegin();
+
+		User user1 = session.get(User.class, 1L);
+		user1.setUserLevel(userLevel2);
+		commitAndBegin();
+
+		userLevel1 = session.get(UserLevel.class, 1L);
+
+		UserLevel finalUserLevel1 = userLevel1;
+		assertDoesNotThrow(() -> { //todo <--- DeleteUserLevel1ExceptionWillBeBAD
+			session.delete(finalUserLevel1);
+			commitAndBegin();
+		});
+
+		//todo Delete Quest card First and check if userLevel2 exist OK
+		questCard1 = session.get(QuestCard.class, 1L);
+		QuestCard finalQuestCard1 = questCard1;
+		assertDoesNotThrow(() -> {
+			session.delete(finalQuestCard1);
+			commitAndBegin();
+		});
+
+		userLevel2 = session.get(UserLevel.class, 2L);
+		assertEquals("User Level Second", userLevel2.getName());
 	}
 
-//	@Test(dependsOnGroups = "Init")
-	public static void ifDependencyOneToManyWrite(){
-		System.out.println("test ----------------------------------------------------------------------------------------------------------------------------------------------------------------");
-	}
-
-//	@Test(dependsOnGroups = "Init")
-	public static void ifDependencyOneToManyDelete(){
-		System.out.println("test ----------------------------------------------------------------------------------------------------------------------------------------------------------------");
-	}
-
-//	@Test(dependsOnGroups = "Init")
-	public static void ifDependencyOneToManyUpdate(){
-		System.out.println("test ----------------------------------------------------------------------------------------------------------------------------------------------------------------");
-	}
-
-//	@Test(dependsOnGroups = "Init")
-	public static void simulateAllSingleBuy(){
-		System.out.println("test ----------------------------------------------------------------------------------------------------------------------------------------------------------------");
-	}
-
-//	@Test(dependsOnGroups = "Init")
-	public static void simulateAllGroupBuy(){
-		System.out.println("test ----------------------------------------------------------------------------------------------------------------------------------------------------------------");
-	}
-
-//	private static void closeAllAndOpenAgainUpdate(){
-//		session.getTransaction().commit();
-//		session.close();
-//		sessionFactory.close();
-//
-//		beforeClass();
-//	}
-
-	private static void rollBackAndBegin(){
-		session.getTransaction().rollback();
-		session.beginTransaction();
-	}
-
-	private static void cleanDB() {
-		Properties properties = new Properties();
-		properties.put("hibernate.hbm2ddl.auto", "create-drop");
-		sessionFactory = new Configuration()
-				.addPackage("Hibernate")
-				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Creepy.class)
-				.addAnnotatedClass(Mentor.class)
-				.addAnnotatedClass(UserClass.class)
-				.addAnnotatedClass(UserLevel.class)
-				.addAnnotatedClass(ItemCategory.class)
-				.addAnnotatedClass(QuestCategory.class)
-				.addAnnotatedClass(GroupItemBasket.class)
-				.addAnnotatedClass(GroupQuestBasket.class)
-				.addAnnotatedClass(QuestCard.class)
-				.addAnnotatedClass(ItemCard.class)
-				.addProperties(properties)
-				.buildSessionFactory();
-		session = sessionFactory.openSession();
-		session.beginTransaction();
-
-		session.getTransaction().commit();
-		session.close();
-		sessionFactory.close();
+	private static void loadAllDB() {
+		InitEntities.creepy(session);
+		InitEntities.mentor(session);
+		InitEntities.userClass(session);
+		InitEntities.userLevel(session);
+		InitEntities.itemCategory(session);
+		InitEntities.questCategory(session);
+		InitEntities.user(session);
+		InitEntities.groupItemBasket(session);
+		InitEntities.groupQuestBasket(session);
+		InitEntities.itemCard(session);
+		InitEntities.questCard(session);
+		commitAndBegin();
 	}
 
 	private static void commitAndBegin(){

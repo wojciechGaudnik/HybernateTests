@@ -21,7 +21,6 @@ import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//@Test(priority = 10)
 public class InitTests {
 
 	private static Session session;
@@ -52,15 +51,8 @@ public class InitTests {
 
 	@AfterClass
 	private static void afterClass(){
-		if(session.isDirty()){
-			session.getTransaction().rollback();
-		} else {
-			session.getTransaction().commit();
-		}
-//		session.getTransaction().commit();
 		session.close();
 		sessionFactory.close();
-
 		cleanDB();
 	}
 

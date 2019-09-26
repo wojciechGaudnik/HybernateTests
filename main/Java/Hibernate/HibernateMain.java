@@ -14,20 +14,21 @@ import Hibernate.Model.Persons.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.testng.annotations.Test;
+
 import java.util.Properties;
 
 
-//		AuditReader auditReader = AuditReaderFactory.get(session);
-//				Creepy oldCreepy = auditReader.find(Creepy.class, 1L, 1);
-//		System.out.println(oldCreepy);
 
-//todo @ToString @ wquals and hascode
+//"org.hibernate.envers.audit_table_suffix", "_AUDIT_LOG");
+//		sessionFactory.setHibernateProperties(hibernateProperties);
+//todo @ToString @ equals and hascode
 //todo ASK MENTOR how make interface with hibernate users,mentors,creepy https://www.baeldung.com/hibernate-inheritance
-//todo one more time email validation !!!
 //todo What if make One Class person and all users will be inherit ??
 //todo change EAGER into Hibernate.initialize(object proxy);
 //todo serializable ?? why here ?
 //todo	@Retention(RUNTIME)   //todo <--- check if help with catch errors !!!
+//todo correct all validation to Column(bleble) for One Exception
 
 //@NotEmpty – validates that the property is not null or empty; can be applied to String, Collection, Map or Array values
 //@NotBlank – can be applied only to text values and validated that the property is not null or whitespace
@@ -81,27 +82,21 @@ public class HibernateMain {
 		session = closeOpenSession(sessionFactory, session);
 
 		System.out.println("First -------------------------------------------------------------------------------------");
-		QuestCategory questCategory2 = session.get(QuestCategory.class, 2L);
+
 		QuestCard questCard1 = session.get(QuestCard.class, 1L);
-
+		QuestCategory questCategory2 = session.get(QuestCategory.class, 2L);
 		questCard1.setQuestCategory(questCategory2);
-
-//		session.save(questCard1);
-//		session.update(questCategory2);
-
-		session = closeOpenSession(sessionFactory, session);
-//		getCommitBegin();
-
-		QuestCategory questCategory2Alertest = session.get(QuestCategory.class, 2L);
-
-
-		questCategory2Alertest.getQuestCard().forEach(c -> System.out.println(c.getName()));
-
-
+		commitAndBegin();
 
 
 		System.out.println("Second -------------------------------------------------------------------------------------");
-//		questCategory2.getQuestCard().forEach(c -> System.out.println(c.getName()));
+		questCard1 = session.get(QuestCard.class, 1L);
+		questCategory2 = session.get(QuestCategory.class, 2L);
+		System.out.println(questCard1.getQuestCategory().getName());
+		questCategory2.getQuestCard().forEach(c -> {
+			System.out.println(c.getName() + "<--- qCARDS");
+		});
+
 		System.out.println("Stop -------------------------------------------------------------------------------------");
 
 
@@ -154,8 +149,11 @@ public class HibernateMain {
 		session.getTransaction().rollback();
 		session.beginTransaction();
 	}
-	private static void getCommitBegin (){
+
+	public static void commitAndBegin(){
 		session.getTransaction().commit();
+		session.close();
+		session = sessionFactory.openSession();
 		session.beginTransaction();
 	}
 }

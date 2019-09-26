@@ -1,5 +1,6 @@
 package Hibernate.Model.Baskets;
 
+import Hibernate.Model.Cards.ItemCard;
 import Hibernate.Model.Cards.QuestCard;
 import Hibernate.Model.Persons.User;
 import lombok.*;
@@ -41,10 +42,10 @@ public class GroupItemBasket {
 	private User owner;
 
 	@ManyToOne(
-			targetEntity = QuestCard.class,
+			targetEntity = ItemCard.class,
 			fetch = FetchType.EAGER	)
 	@JoinColumn(name = "item_card_id")
-	private QuestCard itemCard;
+	private ItemCard itemCard;
 
 	@ManyToMany(
 			targetEntity = User.class,
