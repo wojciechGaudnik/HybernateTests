@@ -1,3 +1,5 @@
+package QSERDHibernate.test;
+
 import QSERDHibernate.model.baskets.GroupItemBasket;
 import QSERDHibernate.model.baskets.GroupQuestBasket;
 import QSERDHibernate.model.cards.ItemCard;

@@ -1,3 +1,5 @@
+package QSERDHibernate.test;
+
 import QSERDHibernate.model.baskets.GroupItemBasket;
 import QSERDHibernate.model.baskets.GroupQuestBasket;
 import QSERDHibernate.model.cards.ItemCard;
@@ -17,8 +19,7 @@ import org.testng.annotations.*;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DependenciesLongTests {
 
@@ -168,6 +169,29 @@ public class DependenciesLongTests {
 				.collect(Collectors.joining(" - ")));
 	}
 
+	@Test(dependsOnGroups = "Fifth",
+			groups = "Sixth")
+	public static void manyToManyMentorsAndUserClasses() {
+		commitAndBegin();
+		beforeMethod();
+		assertDoesNotThrow(DependenciesLongTests::loadAllDB);
+		Mentor mentor1 = session.get(Mentor.class, 1L);
+		UserClass userClass1 = session.get(UserClass.class, 1L);
+		UserClass userClass2 = session.get(UserClass.class, 2L);
+
+		mentor1.getUserClasses().add(userClass1);
+		mentor1.getUserClasses().add(userClass2);
+		commitAndBegin();
+
+		mentor1 = session.get(Mentor.class, 1L);
+		userClass1 = session.get(UserClass.class, 1L);
+		userClass2 = session.get(UserClass.class, 2L);
+
+		assertEquals("Mentor name First", userClass1.getMentors().get(0).getFirstName());
+		assertEquals("Mentor name First", userClass2.getMentors().get(0).getFirstName());
+		assertEquals("User Class First - User Class Second", mentor1.getUserClasses().stream().map(UserClass::getName).collect(Collectors.joining(" - ")));
+	}
+
 	private static void loadAllDB() {
 		InitEntities.creepy(session);
 		InitEntities.mentor(session);
@@ -188,5 +212,31 @@ public class DependenciesLongTests {
 		session.close();
 		session = sessionFactory.openSession();
 		session.beginTransaction();
+	}
+
+	private static void cleanDB() {
+		Properties properties = new Properties();
+		properties.put("hibernate.hbm2ddl.auto", "create-drop");
+		sessionFactory = new Configuration()
+				.addPackage("Hibernate")
+				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(Creepy.class)
+				.addAnnotatedClass(Mentor.class)
+				.addAnnotatedClass(UserClass.class)
+				.addAnnotatedClass(UserLevel.class)
+				.addAnnotatedClass(ItemCategory.class)
+				.addAnnotatedClass(QuestCategory.class)
+				.addAnnotatedClass(GroupItemBasket.class)
+				.addAnnotatedClass(GroupQuestBasket.class)
+				.addAnnotatedClass(QuestCard.class)
+				.addAnnotatedClass(ItemCard.class)
+				.addProperties(properties)
+				.buildSessionFactory();
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		session.getTransaction().commit();
+		session.close();
+		sessionFactory.close();
 	}
 }
