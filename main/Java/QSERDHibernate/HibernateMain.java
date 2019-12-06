@@ -59,8 +59,23 @@ public class HibernateMain {
 
 
 		System.out.println("Init -------------------------------------------------------------------------------------");
+		InitEntities.creepy(session);
+		InitEntities.mentor(session);
+		InitEntities.userClass(session);
+		InitEntities.userLevel(session);
+		InitEntities.itemCategory(session);
+		InitEntities.questCategory(session);
+		InitEntities.user(session);
+		InitEntities.groupItemBasket(session);
+		InitEntities.groupQuestBasket(session);
+		InitEntities.itemCard(session);
+		InitEntities.questCard(session);
+		commitAndBegin();
+
+
 
 		System.out.println("First -------------------------------------------------------------------------------------");
+
 
 		System.out.println("Second -------------------------------------------------------------------------------------");
 
@@ -70,9 +85,6 @@ public class HibernateMain {
 		session.close();
 		sessionFactory.close();
 	}
-
-
-
 
 	private static Session closeOpenSession(SessionFactory sessionFactory, Session session) {
 		session.getTransaction().commit();
